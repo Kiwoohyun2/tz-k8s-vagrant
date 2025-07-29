@@ -154,4 +154,4 @@ spec:
   logSeverityScreen: Info
   nodeToNodeMeshEnabled: false
   serviceClusterIPs:
-  - cidr: 192.168.86.0/12
+  - cidr: 192.168.0.0/12

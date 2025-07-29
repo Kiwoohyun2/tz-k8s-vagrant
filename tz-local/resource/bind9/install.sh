@@ -17,7 +17,7 @@ basic_password=$(prop 'project' 'basic_password')
 
 cat <<EOF | sudo tee /etc/resolv.conf
 search .
-nameserver 192.168.86.100
+nameserver 192.168.0.100
 nameserver 127.0.0.53
 nameserver 8.8.8.8
 options edns0 trust-ad
@@ -30,7 +30,7 @@ sed -i "s/-u bind/-u bind -4/g" /etc/default/named
 cp /etc/bind/named.conf.options /etc/bind/named.conf.options.ori
 echo "
 acl \"trusted\" {
-	192.168.86.100;    # host ip
+	192.168.0.100;    # host ip
 };
 
 options {
@@ -38,7 +38,7 @@ options {
 
 	recursion yes;                 # enables recursive queries
 	allow-recursion { trusted; };  # allows recursive queries from trusted clients
-	listen-on { 192.168.86.100; };   # ns1 private IP address - listen on private network only
+	listen-on { 192.168.0.100; };   # ns1 private IP address - listen on private network only
 	allow-transfer { none; };      # disable zone transfers by default
 
 #	forwarders {
@@ -57,7 +57,7 @@ cat <<EOF | sudo tee /etc/bind/named.conf.local
 zone "t1zone.com" {
         type primary;
         file "/etc/bind/zones/db.t1zone.com";
-        allow-transfer { 192.168.86.100; };
+        allow-transfer { 192.168.0.100; };
 };
 EOF
 
@@ -75,11 +75,11 @@ cat <<EOF | sudo tee /etc/bind/zones/db.t1zone.com
 ;
 @	IN	NS	t1zone.com.
 @	IN	AAAA	::1
-* IN	A 192.168.86.27
-* IN	A 192.168.86.36
+* IN	A 192.168.0.27
+* IN	A 192.168.0.36
 ;
-ns1.t1zone.com.          IN      A       192.168.86.100
-host2.t1zone.com.          IN      A       192.168.86.91
+ns1.t1zone.com.          IN      A       192.168.0.100
+host2.t1zone.com.          IN      A       192.168.0.91
 www           IN      CNAME   t1zone.com.
 EOF
 
@@ -89,13 +89,13 @@ service systemd-resolved stop
 sudo systemctl restart bind9
 #service bind9 status
 
-dig @192.168.86.100 host2.t1zone.com
+dig @192.168.0.100 host2.t1zone.com
 dig host2.t1zone.com
 dig main.devops.eks-main-t.t1zone.com
 dig consul.default.home-k8s.t1zone.com
 
-dig @192.168.86.100 consul.default.home-k8s.t1zone.com
-dig @192.168.86.100 test.default.home-k8s.t1zone.com
+dig @192.168.0.100 consul.default.home-k8s.t1zone.com
+dig @192.168.0.100 test.default.home-k8s.t1zone.com
 
 
 #dig google.com

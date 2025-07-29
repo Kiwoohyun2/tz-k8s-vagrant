@@ -30,7 +30,7 @@ docker_url=$(prop 'project' 'docker_url')
 #    }
 #    harbor.harbor.topzone-k8s.topzone.me:53 {
 #        hosts {
-#            192.168.86.200    harbor.harbor.topzone-k8s.topzone.me
+#            192.168.0.200    harbor.harbor.topzone-k8s.topzone.me
 #        }
 #    }
 

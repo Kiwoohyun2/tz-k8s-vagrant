@@ -73,7 +73,7 @@ mkdir /srv/nfs
 sudo chown nobody:nogroup /srv/nfs
 sudo chmod 0777 /srv/nfs
 cat << EOF >> /etc/exports
-/srv/nfs 192.168.86.0/24(rw,no_subtree_check,no_root_squash)
+/srv/nfs 192.168.0.0/24(rw,no_subtree_check,no_root_squash)
 EOF
 systemctl enable --now nfs-server
 exportfs -ar
@@ -89,30 +89,30 @@ echo "##############################################"
 cat  /vagrant/info
 
 # manual test
-#sudo mount -t nfs 192.168.86.200:/srv/nfs /mnt
+#sudo mount -t nfs 192.168.0.200:/srv/nfs /mnt
 ## done
 
 check_host=`cat /etc/hosts | grep 'kube-master'`
 if [[ "${check_host}" == "" ]]; then
 cat <<EOF >> /etc/hosts
-192.168.86.100   kube-master
-192.168.86.101   kube-node-1
-192.168.86.102   kube-node-2
+192.168.0.100   kube-master
+192.168.0.101   kube-node-1
+192.168.0.102   kube-node-2
 
-192.168.86.110   kube-slave-1
-192.168.86.112   kube-slave-2
-192.168.86.113   kube-slave-3
+192.168.0.110   kube-slave-1
+192.168.0.112   kube-slave-2
+192.168.0.113   kube-slave-3
 
-192.168.86.210   kube-slave-4
-192.168.86.212   kube-slave-5
-192.168.86.213   kube-slave-6
+192.168.0.210   kube-slave-4
+192.168.0.212   kube-slave-5
+192.168.0.213   kube-slave-6
 
-192.168.86.200   test.default.topzone-k8s.topzone.me consul.default.topzone-k8s.topzone.me vault.default.topzone-k8s.topzone.me
-192.168.86.200   consul-server.default.topzone-k8s.topzone.me argocd.default.topzone-k8s.topzone.me
-192.168.86.200   jenkins.default.topzone-k8s.topzone.me harbor.harbor.topzone-k8s.topzone.me
-192.168.86.200   grafana.default.topzone-k8s.topzone.me prometheus.default.topzone-k8s.topzone.me alertmanager.default.topzone-k8s.topzone.me
-192.168.86.200   grafana.default.topzone-k8s.topzone.me prometheus.default.topzone-k8s.topzone.me alertmanager.default.topzone-k8s.topzone.me
-192.168.86.200   vagrant-demo-app.devops-dev.topzone-k8s.topzone.me
+192.168.0.200   test.default.topzone-k8s.topzone.me consul.default.topzone-k8s.topzone.me vault.default.topzone-k8s.topzone.me
+192.168.0.200   consul-server.default.topzone-k8s.topzone.me argocd.default.topzone-k8s.topzone.me
+192.168.0.200   jenkins.default.topzone-k8s.topzone.me harbor.harbor.topzone-k8s.topzone.me
+192.168.0.200   grafana.default.topzone-k8s.topzone.me prometheus.default.topzone-k8s.topzone.me alertmanager.default.topzone-k8s.topzone.me
+192.168.0.200   grafana.default.topzone-k8s.topzone.me prometheus.default.topzone-k8s.topzone.me alertmanager.default.topzone-k8s.topzone.me
+192.168.0.200   vagrant-demo-app.devops-dev.topzone-k8s.topzone.me
 
 EOF
 fi

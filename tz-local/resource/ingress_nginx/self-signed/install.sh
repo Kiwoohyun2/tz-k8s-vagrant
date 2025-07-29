@@ -42,7 +42,7 @@ for item in "${PROJECTS[@]}"; do
 done
 
 # 로컬 환경 테스트
-#echo "192.168.86.200  test.topzone-k8s.topzone.me" | sudo tee -a /etc/hosts
+#echo "192.168.0.200  test.topzone-k8s.topzone.me" | sudo tee -a /etc/hosts
 
 rm -Rf csr_config.ext signing_config.ext
 

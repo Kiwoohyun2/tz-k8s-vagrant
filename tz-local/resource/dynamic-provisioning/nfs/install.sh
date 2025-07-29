@@ -17,7 +17,7 @@ helm uninstall nfs-subdir-external-provisioner -n nfs-provisioner
 helm upgrade --debug --install --reuse-values nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
   --create-namespace \
   --namespace nfs-provisioner \
-  --set nfs.server=192.168.86.100 \
+  --set nfs.server=192.168.0.100 \
   --set nfs.path=/srv/nfs
 
 ## 1. Install NFS CSI driver master version on a kubernetes cluster

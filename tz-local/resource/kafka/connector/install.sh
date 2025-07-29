@@ -102,5 +102,5 @@ service/kafka                          ClusterIP      10.109.195.97    <none>   
 service/zookeeper                      ClusterIP      10.107.241.2     <none>        2181/TCP,2888/TCP,3888/TCP   20h
 service/postgres-source                ClusterIP      10.108.186.12    <none>        5432/TCP                     11m
 
-telnet 192.168.86.100 32181
+telnet 192.168.0.100 32181
 
