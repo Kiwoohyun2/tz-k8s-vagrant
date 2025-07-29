@@ -93,6 +93,11 @@ else
   echo "Use existing ssh key files: ${MYKEY}"
 fi
 
+# Fix SSH key permissions to prevent "UNPROTECTED PRIVATE KEY FILE" error
+chmod 600 .ssh/${MYKEY}
+chmod 644 .ssh/${MYKEY}.pub
+echo "Fixed SSH key permissions for kubespray compatibility"
+
 cp -Rf Vagrantfile Vagrantfile.bak
 if [[ "${1}" == "save" || "${1}" == "restore" || "${1}" == "delete" || "${1}" == "list" ]]; then
   EVENT=${1}
