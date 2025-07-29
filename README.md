@@ -74,7 +74,7 @@ to project root directory.
        
           config.vm.define "kube-master" do |master|
             master.vm.box = IMAGE_NAME
-            master.vm.network "public_network", bridge: "en0: Wi-Fi (AirPort)", ip: "192.168.0.100"        => This should be changed to your network
+            master.vm.network "public_network", bridge: "Realtek Gaming 2.5GbE Family Controller", ip: "192.168.0.100"        => This should be changed to your network
             master.vm.hostname = "kube-master"
             master.vm.provision "shell", :path => File.join(File.dirname(__FILE__),"scripts/local/master.sh"), :args => master.vm.hostname
           end
@@ -82,7 +82,7 @@ to project root directory.
           (1..COUNTER).each do |i|
             config.vm.define "kube-node-#{i}" do |node|
                 node.vm.box = IMAGE_NAME
-                node.vm.network "public_network", bridge: "en0: Wi-Fi (AirPort)", ip: "192.168.0.10#{i}"  => This should be changed to your network
+                node.vm.network "public_network", bridge: "Realtek Gaming 2.5GbE Family Controller", ip: "192.168.0.10#{i}"  => This should be changed to your network
                 
        vi scripts/local/Vagrantfile_slave
           config.vm.define "kube-slave-1" do |slave|
