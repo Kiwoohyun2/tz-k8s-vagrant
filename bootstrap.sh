@@ -128,6 +128,10 @@ if [[ "${EVENT}" == "up" ]]; then
   vagrant ${EVENT} --provider=virtualbox
   if [[ "${A_ENV}" == "M" ]]; then
     echo "##################################################################################"
+    echo 'Fix SSH key permissions in VM'
+    echo "##################################################################################"
+    vagrant ssh kube-master -- -t "sudo chmod 600 /root/.ssh/tz_rsa && sudo chmod 644 /root/.ssh/tz_rsa.pub"
+    echo "##################################################################################"
     echo 'vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/kubespray.sh"'
     echo "##################################################################################"
     sleep 5
@@ -155,6 +159,10 @@ elif [[ "${EVENT}" == "save" || "${EVENT}" == "restore" || "${EVENT}" == "delete
 else
   if [[ "${PROVISION}" == "y" ]]; then
     if [[ "${A_ENV}" == "M" ]]; then
+      echo "##################################################################################"
+      echo 'Fix SSH key permissions in VM'
+      echo "##################################################################################"
+      vagrant ssh kube-master -- -t "sudo chmod 600 /root/.ssh/tz_rsa && sudo chmod 644 /root/.ssh/tz_rsa.pub"
       echo "##################################################################################"
       echo 'vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/kubespray.sh"'
       echo "##################################################################################"
