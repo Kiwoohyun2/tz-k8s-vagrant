@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/topzone8713/demo-app.git
+    repoURL: https://github.com/Kiwoohyun2/demo-app.git
     targetRevision: HEAD
     path: demo-app/k8s
   destination:

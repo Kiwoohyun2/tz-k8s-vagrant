@@ -86,9 +86,9 @@ items:
           - name: ENFORCE_HTTPS
             value: "false"
           - name: NEXUS_DOCKER_HOST
-            value: "topzone8713_docker.com"
+            value: "Kiwoohyun2_docker.com"
           - name: NEXUS_HTTP_HOST
-            value: "topzone8713"
+            value: "Kiwoohyun2"
           - name: UPSTREAM_DOCKER_PORT
             value: "5003"
           - name: UPSTREAM_HOST

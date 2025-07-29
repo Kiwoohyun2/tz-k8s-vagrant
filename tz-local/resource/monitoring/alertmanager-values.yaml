@@ -1,8 +1,8 @@
 global:
   resolve_timeout: 20s
-  smtp_from: topzone8713@gmail.com
+  smtp_from: rltjdgus@gmail.com
   smtp_smarthost: smtp.gmail.com:587
-  smtp_auth_username: topzone8713@gmail.com
+  smtp_auth_username: rltjdgus@gmail.com
   smtp_auth_password: "smtp_password"
   smtp_require_tls: true
   slack_api_url: https://hooks.slack.com/services/XXXXXX/XXXXXX/XXXXXX
@@ -52,7 +52,7 @@ receivers:
 - name: devops-dev
   email_configs:
   - send_resolved: true
-    to: topzone8713@gmail.com
+    to: rltjdgus@gmail.com
 - name: devops-admin
   slack_configs:
   - api_url: 'https://hooks.slack.com/services/XXXXXX/XXXXXX/XXXXXX'
@@ -68,7 +68,7 @@ receivers:
 - name: devops-demo
   email_configs:
   - send_resolved: true
-    to: topzone8713@gmail.com
+    to: rltjdgus@gmail.com
     headers:
       subject: '{{ if eq .Status "firing" }} devops-demo 장애.. {{ else if eq .Status "resolved" }} devops-demo 정상.. {{end}}'
 templates:

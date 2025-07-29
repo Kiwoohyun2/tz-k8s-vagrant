@@ -13,7 +13,7 @@ spec:
       jsonnet: {}
       recurse: true
     path: devops-tz-demo-app/dev
-    repoURL: https://github.com/topzone8713/tz-argocd-repo.git
+    repoURL: https://github.com/Kiwoohyun2/tz-argocd-repo.git
     targetRevision: main
   syncPolicy:
     automated:

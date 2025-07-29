@@ -7,7 +7,7 @@ cd /vagrant/tz-local/resource/argocd/app_of_apps
 #set -x
 shopt -s expand_aliases
 
-git clone https://github.com/topzone8713/demo-app.git
+git clone https://github.com/Kiwoohyun2/demo-app.git
 
 cd demo-app
 

@@ -34,9 +34,9 @@ alertmanager:
   config:
     global:
       resolve_timeout: 5m
-      smtp_from: topzone8713@gmail.com
+      smtp_from: rltjdgus@gmail.com
       smtp_smarthost: smtp.gmail.com:587
-      smtp_auth_username: topzone8713@gmail.com
+      smtp_auth_username: rltjdgus@gmail.com
       smtp_auth_password: "smtp_password"
       smtp_require_tls: true
       slack_api_url: https://hooks.slack.com/services/xxxxx/xxxxx/xxxxx
@@ -87,7 +87,7 @@ alertmanager:
         text: '{{ template "slack.default.text" . }}'
       email_configs:
       - send_resolved: true
-        to: topzone8713@gmail.com
+        to: rltjdgus@gmail.com
 #    - name: devops-dev
 #      slack_configs:
 #      - send_resolved: true
@@ -109,7 +109,7 @@ alertmanager:
 #        text: '{{ template "slack.default.text" . }}'
 #      email_configs:
 #      - send_resolved: true
-#        to: topzone8713@gmail.com
+#        to: rltjdgus@gmail.com
     templates:
     - /etc/alertmanager/config/*.tmpl
   service:

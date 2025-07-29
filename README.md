@@ -20,7 +20,7 @@ to project root directory.
 ## -. Prep a build environment
 ```
     -. checkout codes
-       git clone https://github.com/topzone8713/tz-k8s-vagrant.git
+       git clone https://github.com/Kiwoohyun2/tz-k8s-vagrant.git
        cd tz-k8s-vagrant
 
     -. copy resources like this,
@@ -37,10 +37,10 @@ to project root directory.
         argocd_id=admin
         admin_password=DevOps!323
         basic_password=Soqn!323
-        github_id=topzone8713       # your github_id
+        github_id=Kiwoohyun2       # your github_id
         github_token=               # your github token
         docker_url=index.docker.io
-        dockerhub_id=topzone8713    # your dockerhub_id
+        dockerhub_id=Kiwoohyun2    # your dockerhub_id
         dockerhub_password=         # your dockerhub_password
         vault=xxxx                  
     
@@ -50,21 +50,21 @@ to project root directory.
         {
             "auths": {
                 "https://index.docker.io/v1/": {
-                    "username":"topzone8713",             # your dockerhub_id
+                    "username":"Kiwoohyun2",             # your dockerhub_id
                     "password":"xxxx",                  # your dockerhub_password
-                    "email":"topzone8713@gmail.com",      # your email
+                    "email":"rltjdgus@gmail.com",      # your email
                     "auth":"xxxxxx"                     # base64 encoding
                 }
             },
             "harbor.harbor.okestro-k8s.okestro.me": {
                 "username":"admin",
                 "password":"Harbor12345",
-                "email":"topzone8713@gmail.com",          # your email
+                "email":"rltjdgus@gmail.com",          # your email
                 "auth":"YWRtaW46SGFyYm9yMTIzNDU="
             }
         }
         
-       echo -n 'topzone8713:topzone!323' | base64
+       echo -n 'Kiwoohyun2:topzone!323' | base64
         
     -. DHCP IP address check
        Each VMs are supposed to get IP from DHCP server as public_ip in your network area.
@@ -175,7 +175,7 @@ to project root directory.
 ``` 
 
 ## -. Build Demo app
-### cf) demo app: https://github.com/topzone8713/tz-demo-app
+### cf) demo app: https://github.com/Kiwoohyun2/tz-demo-app
 ```
     - build a K8S in local topzone VMs
         topzone -> VMs -> k8s -> monitoring -> jenkins -> demo-app build

@@ -95,7 +95,7 @@ FLUSH PRIVILEGES;
 #mysql -h devops-prod.cluster-cc6byzimkqxb.ap-northeast-2.rds.amazonaws.com -P 3306 --user=root -p'w14YE*6u+kx~0b[eQikOKwEjyt1%'
 #mysql -h devops-prod.cluster-cc6byzimkqxb.ap-northeast-2.rds.amazonaws.com -P 3306 --protocol tcp --user=topzone -pxxxxx
 
-#ssh -i ~/.ssh/topzone8713 ubuntu@3.35.207.182 -L 3306:devops-prod.cluster-cc6byzimkqxb.ap-northeast-2.rds.amazonaws.com:3306
+#ssh -i ~/.ssh/Kiwoohyun2 ubuntu@3.35.207.182 -L 3306:devops-prod.cluster-cc6byzimkqxb.ap-northeast-2.rds.amazonaws.com:3306
 #mysql -h localhost -P 3306 --protocol tcp --user=topzone -p'xxxxx'
 
 # 5. dump topzone mysql

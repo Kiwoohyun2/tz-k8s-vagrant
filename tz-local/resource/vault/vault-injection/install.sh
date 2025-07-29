@@ -60,8 +60,8 @@ vault write auth/kubernetes/config \
 
 export VAULT_ADDR="http://vault.default.${k8s_project}.${k8s_domain}"
 #export VAULT_ADDR=http://vault.vault.svc.cluster.local:8200
-vault write auth/userpass/users/topzone8713 password=1111111 policies=tz-vault-devops
-vault login -method=userpass username=topzone8713 password=1111111
+vault write auth/userpass/users/Kiwoohyun2 password=1111111 policies=tz-vault-devops
+vault login -method=userpass username=Kiwoohyun2 password=1111111
 
 ## ********* in vault pod *********
 #VAULT_ADDR=http://vault.vault.svc.cluster.local:8200

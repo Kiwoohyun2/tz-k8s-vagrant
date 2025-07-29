@@ -2,7 +2,7 @@
 
 cd tz-local/docker
 
-export docker_user="topzone8713"
+export docker_user="Kiwoohyun2"
 export k8s_project=okestro-k8s
 export k8s_domain=okestro.me
 export tz_project=devops-utils2

@@ -1,4 +1,4 @@
-FROM topzone8713/devops-utils2:latest
+FROM Kiwoohyun2/devops-utils2:latest
 
 ARG k8s_project=xxxxx
 ENV k8s_project=${k8s_project}

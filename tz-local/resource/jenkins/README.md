@@ -23,7 +23,7 @@
         https://github.com/settings/tokens
       2. https://jenkins.default.okestro-k8s.okestro.me/credentials/store/system/domain/_/newCredentials
         Kind: Username with password
-        Username: ex) topzone8713@gmail.com
+        Username: ex) rltjdgus@gmail.com
         Password: ex) xxxxxxxxxxxxxxxxxxxxxxxxx
         ID: github-token
         Description: github-token
@@ -53,7 +53,7 @@
     - gmail-smtp
       1. https://jenkins.default.okestro-k8s.okestro.me/credentials/store/system/domain/_/newCredentials
         Kind: Username with password
-        Username: ex) topzone8713@gmail.com
+        Username: ex) rltjdgus@gmail.com
         Password: ex) xxxxxxxxxxxxxxxx
         ID: gmail-smtp
         Description: gmail-smtp
@@ -62,12 +62,12 @@
     https://jenkins.default.okestro-k8s.okestro.me/manage/configure
     Git plugin
         Global Config user.name Value: Doogee Hong
-        Global Config user.email Value: topzone8713@gmail.com
+        Global Config user.email Value: rltjdgus@gmail.com
 
     - E-mail Notification
         SMTP Server: smtp.gmail.com
         Use SMTP Authentication
-            User Name: topzone8713@gmail.com
+            User Name: rltjdgus@gmail.com
             Password: xxxxx  => Google "App password"  // https://myaccount.google.com/apppasswords
         Use SSL: no
         Use TLS: yes
@@ -87,8 +87,8 @@
 ## build a demo app
 ###################################################
 
-github fork: https://github.com/topzone8713/tz-demo-app.git
-=> https://github.com/topzone8713/tz-demo-app.git
+github fork: https://github.com/Kiwoohyun2/tz-demo-app.git
+=> https://github.com/Kiwoohyun2/tz-demo-app.git
 
 new project
 Enter an item name: tz-demo-app
@@ -96,7 +96,7 @@ Select an item type: Pipeline
 Pipeline > Definition
 Pipeline: Pipeline script from SCM
     SCM: Git
-    Repository URL: https://github.com/topzone8713/tz-demo-app.git
+    Repository URL: https://github.com/Kiwoohyun2/tz-demo-app.git
     credentials: github-token
     branch: */vagrant
 Script Path: k8s/Jenkinsfile
@@ -104,10 +104,10 @@ Script Path: k8s/Jenkinsfile
 tz-demo-app/k8s/Jenkinsfile
 
     environment {
-        GITHUP_ID = "topzone8713"               =>
+        GITHUP_ID = "Kiwoohyun2"               =>
         GIT_URL = "https://github.com/${GITHUP_ID}/tz-demo-app.git"
         GIT_BRANCH = "devops"                   =>
-        GIT_COMMITTER_EMAIL = "topzone8713@gmail.com"   =>
+        GIT_COMMITTER_EMAIL = "rltjdgus@gmail.com"   =>
 
         DOMAIN = "okestro.me"                   =>
         CLUSTER_NAME = "okestro-k8s"

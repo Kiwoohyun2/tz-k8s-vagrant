@@ -18,10 +18,10 @@ data:
     [smtp]
     enabled = true
     host = smtp.gmail.com:587
-    user = topzone8713@gmail.com
+    user = rltjdgus@gmail.com
     password = admin_password
     skip_verify = true
-    from_address = topzone8713@gmail.com
+    from_address = rltjdgus@gmail.com
     from_name = Grafana (k8s_project)
     ehlo_identity = grafana.default.k8s_project.k8s_domain
     [server]

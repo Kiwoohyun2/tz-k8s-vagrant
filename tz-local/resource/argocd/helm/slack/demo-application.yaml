@@ -12,7 +12,7 @@ metadata:
 spec:
   project: devops
   source:
-    repoURL: https://github.com/topzone8713/tz-argocd-repo.git
+    repoURL: https://github.com/Kiwoohyun2/tz-argocd-repo.git
     path: devops-demo/dev
     targetRevision: HEAD
   destination:
