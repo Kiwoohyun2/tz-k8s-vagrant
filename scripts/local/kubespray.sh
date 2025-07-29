@@ -64,9 +64,18 @@ sed -ie "s|127.0.0.1|192.168.0.100|g" /vagrant/.ssh/kubeconfig_tz-k8s-vagrant
 echo "## [ install kubectl ] ######################################################"
 sudo apt-get update && sudo apt-get install -y apt-transport-https gnupg2 curl
 
-# Download kubectl with error checking
+# Download kubectl with error checking and proper redirect handling
 echo "Downloading kubectl..."
-if curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"; then
+
+# Get the latest version with proper redirect handling
+KUBECTL_VERSION=$(curl -L -s -f https://dl.k8s.io/release/stable.txt 2>/dev/null || echo "v1.28.0")
+echo "Using kubectl version: ${KUBECTL_VERSION}"
+
+# Download kubectl with proper redirect handling
+KUBECTL_URL="https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
+echo "Downloading from: ${KUBECTL_URL}"
+
+if curl -L -f "${KUBECTL_URL}" -o kubectl; then
     echo "kubectl downloaded successfully"
     if [ -f kubectl ]; then
         sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
