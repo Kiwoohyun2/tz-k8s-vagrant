@@ -115,7 +115,7 @@ es:
   ## of a remote Elasticsearch server. When basic auth is needed,
   ## specify as: <proto>://<user>:<password>@<host>:<port>. e.g., http://admin:pass@localhost:9200.
   ##
-  uri: http://elastic:admin_password@es.elk.topzone-k8s.k8s_domain
+  uri: http://elastic:admin_password@es.elk.okestro-k8s.k8s_domain
 
   ## If true, query stats for all nodes in the cluster, rather than just the
   ## node we connect to.

@@ -12,30 +12,30 @@ complete -C /usr/local/bin/vault vault
 #vault -h
 
 kubectl get secret harbor-release-ingress -n harbor -o jsonpath='{.data.ca\.crt}' | base64 -d > ca.crt
-echo "Harbor12345" | docker login harbor.harbor.topzone-k8s.topzone.me -u admin --password-stdin
-docker build -t harbor.harbor.topzone-k8s.topzone.me/topzone-k8s/kaniko-executor:v1.7.0-debug .
-docker push harbor.harbor.topzone-k8s.topzone.me/topzone-k8s/kaniko-executor:v1.7.0-debug
+echo "Harbor12345" | docker login harbor.harbor.okestro-k8s.okestro.me -u admin --password-stdin
+docker build -t harbor.harbor.okestro-k8s.okestro.me/okestro-k8s/kaniko-executor:v1.7.0-debug .
+docker push harbor.harbor.okestro-k8s.okestro.me/okestro-k8s/kaniko-executor:v1.7.0-debug
 
 /kaniko/executor --dockerfile=Dockerfile --context=/root/shared-data/tz-demo-app --build-arg NODE_ENV=development \
---destination=harbor.harbor.topzone-k8s.topzone.me/topzone-k8s/tz-demo-app:13 \
+--destination=harbor.harbor.okestro-k8s.okestro.me/okestro-k8s/tz-demo-app:13 \
 --use-new-run --cleanup --force --skip-tls-verify
 
 
 /kaniko/executor --dockerfile=Dockerfile --context=/root/shared-data/tz-demo-app --build-arg NODE_ENV=development \
---destination=harbor.harbor.topzone-k8s.topzone.me/topzone-k8s/kaniko-executor:v1.7.0-debug \
+--destination=harbor.harbor.okestro-k8s.okestro.me/okestro-k8s/kaniko-executor:v1.7.0-debug \
 --use-new-run --cleanup --force --skip-tls-verify
 
 
 
 cat <<EOF > /etc/docker/daemon.json
 {
-  "insecure-registries":["harbor.harbor.topzone-k8s.topzone.me"]
+  "insecure-registries":["harbor.harbor.okestro-k8s.okestro.me"]
 }
 EOF
 
 systemctl restart docker
 
-echo "Harbor12345" | docker login harbor.harbor.topzone-k8s.topzone.me -u admin --password-stdin
+echo "Harbor12345" | docker login harbor.harbor.okestro-k8s.okestro.me -u admin --password-stdin
 
 #kubectl delete secret harbor-registry-secret -n jenkins
 #kubectl create secret generic harbor-registry-secret \
@@ -44,7 +44,7 @@ echo "Harbor12345" | docker login harbor.harbor.topzone-k8s.topzone.me -u admin 
 
 
 kubectl create secret docker-registry regsecret -n jenkins \
-    --docker-server=harbor.harbor.topzone-k8s.topzone.me \
+    --docker-server=harbor.harbor.okestro-k8s.okestro.me \
     --docker-username=admin \
     --docker-password=Harbor12345 \
     --docker-email=topzone8713@gmail.com
@@ -66,7 +66,7 @@ apt-get update && \
 
 cat <<EOF > /etc/docker/daemon.json
 {
-  "insecure-registries":["harbor.harbor.topzone-k8s.topzone.me"]
+  "insecure-registries":["harbor.harbor.okestro-k8s.okestro.me"]
 }
 EOF
 

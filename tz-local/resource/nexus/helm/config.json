@@ -1,6 +1,6 @@
 {
   "auths": {
-      "http://docker.topzone-k8s.topzone.me/v1/": {
+      "http://docker.okestro-k8s.okestro.me/v1/": {
           "auth": "admin",
           "email": "topzone8713@gmail.com"
       }

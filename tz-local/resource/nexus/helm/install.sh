@@ -71,8 +71,8 @@ echo "
 http://nexus.default.${k8s_project}.${k8s_domain}/#admin/repository/blobstores
 
 Create blob store
-  docker-hosted   # s3: devops-nexus-topzone-k8s
-  docker-hub      # s3: devops-nexus-hub-topzone-k8s
+  docker-hosted   # s3: devops-nexus-okestro-k8s
+  docker-hub      # s3: devops-nexus-hub-okestro-k8s
 
 http://nexus.default.${k8s_project}.${k8s_domain}/#admin/repository/repositories
   Repositories > Select Recipe > Create repository: docker (hosted)
@@ -94,10 +94,10 @@ http://nexus.default.${k8s_project}.${k8s_domain}/#admin/security/realms
 
 http://nexus.default.${k8s_project}.${k8s_domain}/#admin/security/sslcertificates
   load certificate from server
-  docker.default.topzone-k8s.topzone.me
+  docker.default.okestro-k8s.okestro.me
 
 
-DOCKER_ELB=nexus.topzone-k8s.topzone.me:5433
+DOCKER_ELB=nexus.okestro-k8s.okestro.me:5433
 docker login -u admin -p "${admin_password}" ${DOCKER_ELB}
 docker pull busybox
 RMI=`docker images -a | grep busybox | awk '{print $3}' | head -n 1`
@@ -109,13 +109,13 @@ cat /vagrant/info
 
 exit 0
 
-docker login -u admin https://docker.default.topzone-k8s.topzone.me --password-stdin admin123
+docker login -u admin https://docker.default.okestro-k8s.okestro.me --password-stdin admin123
 
 
-https://nexus.topzone-k8s.topzone.me/#admin/security/privileges
+https://nexus.okestro-k8s.okestro.me/#admin/security/privileges
 
-docker login nexus.topzone-k8s.topzone.me:5433
+docker login nexus.okestro-k8s.okestro.me:5433
 
 Get "https://xxx/v2/": dial tcp: lookup xxx on 127.0.0.53:53: no such host
 
-docker.topzone-k8s.topzone.me
+docker.okestro-k8s.okestro.me

@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 data:
   context: |
-    argocdUrl: "https://argocd.topzone-k8s.topzone.me"
+    argocdUrl: "https://argocd.okestro-k8s.okestro.me"
   defaultTriggers: |
     - on-sync-status-unknown
   service.slack: |

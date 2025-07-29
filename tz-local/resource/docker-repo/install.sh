@@ -28,16 +28,16 @@ docker_url=$(prop 'project' 'docker_url')
 #        ready
 #        ~~~~
 #    }
-#    harbor.harbor.topzone-k8s.topzone.me:53 {
+#    harbor.harbor.okestro-k8s.okestro.me:53 {
 #        hosts {
-#            192.168.0.200    harbor.harbor.topzone-k8s.topzone.me
+#            192.168.0.200    harbor.harbor.okestro-k8s.okestro.me
 #        }
 #    }
 
 #kubectl -n kube-system rollout restart deployment coredns
 
 # apt-get update && apt-get install dnsutils -y
-# nslookup harbor.harbor.topzone-k8s.topzone.me
+# nslookup harbor.harbor.okestro-k8s.okestro.me
 
 apt-get update -y
 apt-get -y install docker.io jq
@@ -48,11 +48,11 @@ mkdir -p /root/.docker
 
 #cat <<EOF > /etc/docker/daemon.json
 #{
-#    "insecure-registries": ["harbor.harbor.topzone-k8s.topzone.me"]
+#    "insecure-registries": ["harbor.harbor.okestro-k8s.okestro.me"]
 #}
 #EOF
 #service docker restart
-#echo "Harbor12345" | docker login harbor.harbor.topzone-k8s.topzone.me -u admin --password-stdin
+#echo "Harbor12345" | docker login harbor.harbor.okestro-k8s.okestro.me -u admin --password-stdin
 
 cp -Rf /vagrant/resources/config.json /root/.docker/config.json
 chown -Rf topzone:topzone /root/.docker
@@ -89,11 +89,11 @@ sudo vi /etc/containerd/config.toml
     [plugins."io.containerd.grpc.v1.cri".registry]
       [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
         [plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.io"]
-          endpoint = ["https://registry-1.docker.io", "https://harbor.harbor.topzone-k8s.topzone.me"]
+          endpoint = ["https://registry-1.docker.io", "https://harbor.harbor.okestro-k8s.okestro.me"]
 
     [plugins."io.containerd.grpc.v1.cri".registry.configs]
-        [plugins."io.containerd.grpc.v1.cri".registry.configs."harbor.harbor.topzone-k8s.topzone.me".auth]
+        [plugins."io.containerd.grpc.v1.cri".registry.configs."harbor.harbor.okestro-k8s.okestro.me".auth]
           username = "admin"
           password = "Harbor12345"
-        [plugins."io.containerd.grpc.v1.cri".registry.configs."harbor.harbor.topzone-k8s.topzone.me".tls]
+        [plugins."io.containerd.grpc.v1.cri".registry.configs."harbor.harbor.okestro-k8s.okestro.me".tls]
           insecure_skip_verify = true

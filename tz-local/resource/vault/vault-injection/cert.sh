@@ -37,7 +37,7 @@ C = NO
 ST = Oslo
 L = Oslo
 O = Personal
-emailAddress = devops@topzone.me
+emailAddress = devops@okestro.me
 CN = ${SERVICE}.${NAMESPACE}.svc
 [ v3_req ]
 basicConstraints = CA:FALSE

@@ -86,7 +86,7 @@ metadata:
     cert-manager.io/cluster-issuer: "selfsigned-issuer"
 spec:
   rules:
-    - host: main.devops.topzone-k8s.topzone.me
+    - host: main.devops.okestro-k8s.okestro.me
       http:
         paths:
           - path: /
@@ -98,5 +98,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - main.devops.topzone-k8s.topzone.me
+        - main.devops.okestro-k8s.okestro.me
       secretName: devops-tz-demo-app-ssl

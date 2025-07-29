@@ -10,11 +10,11 @@ spec:
     name: selfsigned-issuer
     kind: ClusterIssuer
     group: cert-manager.io
-  commonName: ITEM.topzone.me
+  commonName: ITEM.okestro.me
   privateKey:
     algorithm: ECDSA
     size: 256
   dnsNames:
-    - ITEM.topzone.me
-    - ITEM.default.topzone-k8s.topzone.me
-    - ITEM.NS.topzone-k8s.topzone.me
+    - ITEM.okestro.me
+    - ITEM.default.okestro-k8s.okestro.me
+    - ITEM.NS.okestro-k8s.okestro.me

@@ -107,12 +107,12 @@ cat <<EOF >> /etc/hosts
 192.168.0.212   kube-slave-5
 192.168.0.213   kube-slave-6
 
-192.168.0.200   test.default.topzone-k8s.topzone.me consul.default.topzone-k8s.topzone.me vault.default.topzone-k8s.topzone.me
-192.168.0.200   consul-server.default.topzone-k8s.topzone.me argocd.default.topzone-k8s.topzone.me
-192.168.0.200   jenkins.default.topzone-k8s.topzone.me harbor.harbor.topzone-k8s.topzone.me
-192.168.0.200   grafana.default.topzone-k8s.topzone.me prometheus.default.topzone-k8s.topzone.me alertmanager.default.topzone-k8s.topzone.me
-192.168.0.200   grafana.default.topzone-k8s.topzone.me prometheus.default.topzone-k8s.topzone.me alertmanager.default.topzone-k8s.topzone.me
-192.168.0.200   vagrant-demo-app.devops-dev.topzone-k8s.topzone.me
+192.168.0.200   test.default.okestro-k8s.okestro.me consul.default.okestro-k8s.okestro.me vault.default.okestro-k8s.okestro.me
+192.168.0.200   consul-server.default.okestro-k8s.okestro.me argocd.default.okestro-k8s.okestro.me
+192.168.0.200   jenkins.default.okestro-k8s.okestro.me harbor.harbor.okestro-k8s.okestro.me
+192.168.0.200   grafana.default.okestro-k8s.okestro.me prometheus.default.okestro-k8s.okestro.me alertmanager.default.okestro-k8s.okestro.me
+192.168.0.200   grafana.default.okestro-k8s.okestro.me prometheus.default.okestro-k8s.okestro.me alertmanager.default.okestro-k8s.okestro.me
+192.168.0.200   vagrant-demo-app.devops-dev.okestro-k8s.okestro.me
 
 EOF
 fi

@@ -90,7 +90,7 @@ controller:
   # The Protocol can be overwritten by specifying `controller.jenkinsUrlProtocol`.
   # jenkinsUrlProtocol: "https"
   # If you are not using the provided ingress you can specify `controller.jenkinsUrl` to change the url definition.
-  # jenkinsUrl: "jenkins.devops.topzone-k8s.topzone.me"
+  # jenkinsUrl: "jenkins.devops.okestro-k8s.okestro.me"
   # If you set this prefix and use ingress controller then you might want to set the ingress path below
   # jenkinsUriPrefix: "/jenkins"
   # Enable pod security context (must be `true` if podSecurityContextOverride, runAsUser or fsGroup are set)
@@ -614,7 +614,7 @@ controller:
 #    # Set this path to jenkinsUriPrefix above or use annotations to rewrite path
 #    # path: "/jenkins"
 #    # configures the hostname e.g. jenkins.example.com
-#    hostName: jenkins.devops.topzone-k8s.topzone.me
+#    hostName: jenkins.devops.okestro-k8s.okestro.me
 
   # often you want to have your controller all locked down and private
   # but you still want to get webhooks from your SCM

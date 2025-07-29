@@ -1,6 +1,6 @@
 {
 	"auths": {
-		"harbor.harbor.topzone-k8s.topzone.me": {
+		"harbor.harbor.okestro-k8s.okestro.me": {
 			"auth": "YWRtaW46SGFyYm9yMTIzNDU="
 		}
 	}

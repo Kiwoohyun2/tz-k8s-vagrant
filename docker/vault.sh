@@ -13,7 +13,7 @@ if [ "${k8s_project}" == "" ]; then
   k8s_project=eks-main-p
 fi
 if [ "${k8s_domain}" == "" ]; then
-  k8s_domain=topzone.me
+  k8s_domain=okestro.me
 fi
 if [ "${secret_name}" == "" ]; then
   secret_name=devops-utils

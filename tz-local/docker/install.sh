@@ -3,8 +3,8 @@
 cd tz-local/docker
 
 export docker_user="topzone8713"
-export k8s_project=topzone-k8s
-export k8s_domain=topzone.me
+export k8s_project=okestro-k8s
+export k8s_domain=okestro.me
 export tz_project=devops-utils2
 
 dockerhub_id=${docker_user}
@@ -24,7 +24,7 @@ docker-compose -f docker-compose.yml_bak up -d
 #docker-compose -f docker-compose.yml_bak down
 
 docker exec -it `docker ps | grep docker-${tz_project} | awk '{print $1}'` bash
-export k8s_project=topzone-k8s
+export k8s_project=okestro-k8s
 bash /vagrant/tz-local/docker/init2.sh
 
 exit 0

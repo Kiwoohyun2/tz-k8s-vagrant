@@ -115,7 +115,7 @@ kubectl cp monitoring/bastion:Service.sql Service.sql
 
 #MYSQL_HOST=topzone2-prod-private-2.c01spz81v11d.ap-northeast-2.rds.amazonaws.com
 #MYSQL_HOST=devops-mysql.devops-dev.svc.cluster.local
-MYSQL_HOST=mysql.devops.topzone.me
+MYSQL_HOST=mysql.devops.okestro.me
 MYSQL_PORT=3306
 MYSQL_PASSWORD='xxxxx'
 mysql -h ${MYSQL_HOST} -P ${MYSQL_PORT} --protocol tcp --user=topzone -p${MYSQL_PASSWORD}
@@ -173,7 +173,7 @@ mysqldump --column-statistics=0 -h ${MYSQL_HOST} -P ${MYSQL_PORT} --user=root -p
 mysqldump --column-statistics=0 -h ${MYSQL_HOST} -P ${MYSQL_PORT} --user=root -p${MYSQL_ROOT_PASSWORD} --add-drop-table Service > Service.sql
 
 MYSQL_HOST=devops-prod.cluster-cc6byzimkqxb.ap-northeast-2.rds.amazonaws.com
-MYSQL_HOST=mysql.devops.topzone.me
+MYSQL_HOST=mysql.devops.okestro.me
 MYSQL_PORT=3306
 MYSQL_USER=topzone
 MYSQL_PASSWORD='xxx'

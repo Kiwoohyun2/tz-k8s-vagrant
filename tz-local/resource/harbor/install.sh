@@ -51,11 +51,11 @@ sleep 300
 
 #cat <<EOF > /etc/docker/daemon.json
 #{
-#  "insecure-registries":["harbor.harbor.topzone-k8s.topzone.me"]
+#  "insecure-registries":["harbor.harbor.okestro-k8s.okestro.me"]
 #}
 #EOF
 #
-#echo "Harbor12345" | docker login harbor.harbor.topzone-k8s.topzone.me -u admin --password-stdin
+#echo "Harbor12345" | docker login harbor.harbor.okestro-k8s.okestro.me -u admin --password-stdin
 #
 #kubectl delete secret harbor-registry-secret -n jenkins
 #kubectl create secret generic harbor-registry-secret \

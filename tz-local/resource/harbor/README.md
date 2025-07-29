@@ -4,10 +4,10 @@
 ## build a jenkins project in EKS
 ###################################################
 ```
-https://harbor.harbor.topzone-k8s.topzone.me/
+https://harbor.harbor.okestro-k8s.okestro.me/
 admin / Harbor12345
 
-1. new project: topzone-k8s
+1. new project: okestro-k8s
 2. Access Level: check Public
  
 ```

@@ -16,7 +16,7 @@ spec:
       hostAliases:
       - ip: "192.168.0.200"
         hostnames:
-        - "harbor.harbor.topzone-k8s.topzone.me"
+        - "harbor.harbor.okestro-k8s.okestro.me"
       imagePullSecrets:
         - name: tz-registrykey
       serviceAccountName: devops-dev-svcaccount

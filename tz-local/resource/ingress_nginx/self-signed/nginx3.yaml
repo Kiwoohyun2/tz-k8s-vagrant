@@ -7,7 +7,7 @@ metadata:
     cert-manager.io/cluster-issuer: "selfsigned-issuer"
 spec:
   rules:
-    - host: test.topzone.me
+    - host: test.okestro.me
       http:
         paths:
           - path: /
@@ -17,7 +17,7 @@ spec:
                 name: nginx
                 port:
                   number: 80
-    - host: test.topzone-k8s.topzone.me
+    - host: test.okestro-k8s.okestro.me
       http:
         paths:
           - path: /
@@ -27,7 +27,7 @@ spec:
                 name: nginx
                 port:
                   number: 80
-    - host: test.default.topzone-k8s.topzone.me
+    - host: test.default.okestro-k8s.okestro.me
       http:
         paths:
           - path: /
@@ -39,7 +39,7 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - test.topzone.me
-        - test.topzone-k8s.topzone.me
-        - test.default.topzone-k8s.topzone.me
+        - test.okestro.me
+        - test.okestro-k8s.okestro.me
+        - test.default.okestro-k8s.okestro.me
       secretName: ingress-test-tls

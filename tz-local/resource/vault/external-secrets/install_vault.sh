@@ -141,7 +141,7 @@ kubectl get SecretStores,ClusterSecretStores,ExternalSecrets --all-namespaces
 NAMESPACE=devops
 STAGING=prod
 
-PROJECTS=(kubeconfig_eks-main-p kubeconfig_topzone-k8s kubeconfig_eks-main-s kubeconfig_topzone-k8s kubeconfig_eks-main-c devops.pub devops.pem devops credentials config auth.env ssh_config)
+PROJECTS=(kubeconfig_eks-main-p kubeconfig_okestro-k8s kubeconfig_eks-main-s kubeconfig_okestro-k8s kubeconfig_eks-main-c devops.pub devops.pem devops credentials config auth.env ssh_config)
 for item in "${PROJECTS[@]}"; do
   if [[ "${item}" != "NAME" ]]; then
     bash vault.sh fput ${NAMESPACE}-${STAGING} ${item} ${item}

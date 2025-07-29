@@ -27,12 +27,12 @@ kubectl create secret docker-registry tz-registrykey \
 #kubectl delete secret tz-registrykey -n jenkins
 #kubectl create secret docker-registry tz-registrykey \
 #  --namespace jenkins \
-#  --docker-server=https://nexus.topzone-k8s.topzone.me:5000/v2/ \
+#  --docker-server=https://nexus.okestro-k8s.okestro.me:5000/v2/ \
 #  --docker-username=$DOCKER_USERNAME \
 #  --docker-password=$PW \
 #  --docker-email=$EMAIL
 
-#  --docker-server=https://nexus.topzone-k8s.topzone.me:5000/v2/ \
+#  --docker-server=https://nexus.okestro-k8s.okestro.me:5000/v2/ \
 #kubectl get secret tz-registrykey --output=yaml
 
 kubectl delete -f clusterPullSecret.yaml

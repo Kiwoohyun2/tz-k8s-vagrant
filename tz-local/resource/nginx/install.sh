@@ -48,7 +48,7 @@ sudo certbot --nginx -d argocd.shoptools.co.kr
 sudo certbot --nginx -d consul-server.shoptools.co.kr
 sudo certbot --nginx -d vault.shoptools.co.kr
 sudo certbot --nginx -d longhorn.shoptools.co.kr
-sudo certbot --nginx -d nexus.topzone-k8s.topzone.me
+sudo certbot --nginx -d nexus.okestro-k8s.okestro.me
 
 ln -s /etc/nginx/sites-available/alertmanager alertmanager
 ln -s /etc/nginx/sites-available/grafana grafana

@@ -46,7 +46,7 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
-    - host: test.topzone-k8s.topzone.me
+    - host: test.okestro-k8s.okestro.me
       http:
         paths:
           - path: /

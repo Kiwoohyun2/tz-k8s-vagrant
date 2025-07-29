@@ -4,10 +4,10 @@ metadata:
   name: ns-list
 subjects:
 - kind: User
-  name: topzone-k8s-k8sAdmin
+  name: okestro-k8s-k8sAdmin
   apiGroup: rbac.authorization.k8s.io
 - kind: User
-  name: topzone-k8s-k8sDev
+  name: okestro-k8s-k8sDev
   apiGroup: rbac.authorization.k8s.io
 - kind: User
   name: doogee
@@ -21,10 +21,10 @@ roleRef:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: topzone-k8s-k8sAdmin
+  name: okestro-k8s-k8sAdmin
 subjects:
 - kind: Group
-  name: topzone-k8s-k8sAdmin
+  name: okestro-k8s-k8sAdmin
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole
@@ -43,7 +43,7 @@ roleRef:
   name: read-only-lens-metrics
 subjects:
 - kind: Group
-  name: topzone-k8s-k8sAdmin
+  name: okestro-k8s-k8sAdmin
   apiGroup: rbac.authorization.k8s.io
 - kind: Group
   name: devops-admin

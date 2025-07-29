@@ -32,8 +32,8 @@ to project root directory.
     tz-k8s-vagrant/resources/project
     
     ex)
-        project=topzone-k8s
-        domain=topzone.me     # temporary local domain
+        project=okestro-k8s
+        domain=okestro.me     # temporary local domain
         argocd_id=admin
         admin_password=DevOps!323
         basic_password=Soqn!323
@@ -56,7 +56,7 @@ to project root directory.
                     "auth":"xxxxxx"                     # base64 encoding
                 }
             },
-            "harbor.harbor.topzone-k8s.topzone.me": {
+            "harbor.harbor.okestro-k8s.okestro.me": {
                 "username":"admin",
                 "password":"Harbor12345",
                 "email":"topzone8713@gmail.com",          # your email
@@ -164,11 +164,11 @@ to project root directory.
         ex) 192.168.0.200 is my ingress-nginx's EXTERNAL-IP
             kubectl get svc -n default | grep ingress-nginx-controller        
         
-            192.168.0.200   test.default.topzone-k8s.topzone.me consul.default.topzone-k8s.topzone.me vault.default.topzone-k8s.topzone.me
-            192.168.0.200   consul-server.default.topzone-k8s.topzone.me argocd.default.topzone-k8s.topzone.me
-            192.168.0.200   jenkins.default.topzone-k8s.topzone.me harbor.harbor.topzone-k8s.topzone.me
-            192.168.0.200   grafana.default.topzone-k8s.topzone.me prometheus.default.topzone-k8s.topzone.me alertmanager.default.topzone-k8s.topzone.me
-            192.168.0.200   vagrant-demo-app.devops-dev.topzone-k8s.topzone.me
+            192.168.0.200   test.default.okestro-k8s.okestro.me consul.default.okestro-k8s.okestro.me vault.default.okestro-k8s.okestro.me
+            192.168.0.200   consul-server.default.okestro-k8s.okestro.me argocd.default.okestro-k8s.okestro.me
+            192.168.0.200   jenkins.default.okestro-k8s.okestro.me harbor.harbor.okestro-k8s.okestro.me
+            192.168.0.200   grafana.default.okestro-k8s.okestro.me prometheus.default.okestro-k8s.okestro.me alertmanager.default.okestro-k8s.okestro.me
+            192.168.0.200   vagrant-demo-app.devops-dev.okestro-k8s.okestro.me
 
     -. After installing k8s on all machines,
         bash /vagrant/scripts/k8s_addtion.sh

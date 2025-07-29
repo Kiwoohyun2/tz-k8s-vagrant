@@ -22,7 +22,7 @@ spec:
       allowEmpty: true
 
 
-#argocd login argocd.default.topzone-k8s.topzone.me:443 --username admin --password T1zone\!323 --insecure
+#argocd login argocd.default.okestro-k8s.okestro.me:443 --username admin --password T1zone\!323 --insecure
 #
 #argocd app create devops-tz-gpt3 \
 #  --project devops \

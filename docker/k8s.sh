@@ -9,7 +9,7 @@ WORKING_HOME=/var/lib/jenkins
 #WORKING_HOME=/home/vagrant
 
 if [[ "${CLUSTER_NAME}" == "" ]]; then
-    CLUSTER_NAME="topzone-k8s"
+    CLUSTER_NAME="okestro-k8s"
 fi
 
 CONFIG_FILE=$(echo ${CLUSTER_NAME} | sed 's/eks-main/project/')
@@ -544,8 +544,8 @@ exit 0
 
 export VAULT_ADDR=http://vault.vault.svc.cluster.local:8200
 
-CLUSTER_NAME=topzone-k8s
-k8s_domain=default.topzone-k8s.topzone.me
+CLUSTER_NAME=okestro-k8s
+k8s_domain=default.okestro-k8s.okestro.me
 export VAULT_ADDR=http://vault.default.${CLUSTER_NAME}.${k8s_domain}
 login_out=$(vault login ${VAULT_TOKEN})
 

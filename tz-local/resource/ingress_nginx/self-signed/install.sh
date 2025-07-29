@@ -42,7 +42,7 @@ for item in "${PROJECTS[@]}"; do
 done
 
 # 로컬 환경 테스트
-#echo "192.168.0.200  test.topzone-k8s.topzone.me" | sudo tee -a /etc/hosts
+#echo "192.168.0.200  test.okestro-k8s.okestro.me" | sudo tee -a /etc/hosts
 
 rm -Rf csr_config.ext signing_config.ext
 
@@ -55,6 +55,6 @@ kubectl delete -f ingress-vault.yaml -n vault
 kubectl apply -f ingress-vault.yaml -n vault
 
 export NS=devops
-export k8s_project=topzone-k8s
-export k8s_domain=topzone-k8s.topzone.me
+export k8s_project=okestro-k8s
+export k8s_domain=okestro-k8s.okestro.me
 

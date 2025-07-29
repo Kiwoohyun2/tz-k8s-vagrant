@@ -19,7 +19,7 @@ data:
       type: oidc
       id: google
       name: Google
-      url: https://argocd.default.topzone-k8s.topzone.me
+      url: https://argocd.default.okestro-k8s.okestro.me
   exec.enabled: 'false'
   server.rbac.log.enforce.enable: 'false'
   timeout.hard.reconciliation: 0s

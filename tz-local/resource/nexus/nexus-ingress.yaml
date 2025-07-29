@@ -5,7 +5,7 @@ metadata:
   annotations:
 #    nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      X-Forwarded-Host: nexus.k8s_project.topzone.me;
+      X-Forwarded-Host: nexus.k8s_project.okestro.me;
 spec:
 #  tls:
 #    - hosts:
