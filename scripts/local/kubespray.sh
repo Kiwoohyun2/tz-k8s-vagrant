@@ -63,13 +63,84 @@ sed -ie "s|127.0.0.1|192.168.0.100|g" /vagrant/.ssh/kubeconfig_tz-k8s-vagrant
 
 echo "## [ install kubectl ] ######################################################"
 sudo apt-get update && sudo apt-get install -y apt-transport-https gnupg2 curl
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+# Download kubectl with error checking
+echo "Downloading kubectl..."
+if curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"; then
+    echo "kubectl downloaded successfully"
+    if [ -f kubectl ]; then
+        sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+        echo "kubectl installed successfully"
+        rm -f kubectl
+    else
+        echo "Error: kubectl file not found after download"
+        exit 1
+    fi
+else
+    echo "Error: Failed to download kubectl"
+    exit 1
+fi
 
 echo "## [ install helm3 ] ######################################################"
 sudo curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 sudo bash get_helm.sh
 sudo rm -Rf get_helm.sh
+
+echo "## [ install additional tools ] ######################################################"
+# Install unzip
+sudo apt-get install -y unzip
+
+# Install wget if not available
+if ! command -v wget &> /dev/null; then
+    sudo apt-get install -y wget
+fi
+
+echo "## [ install consul ] ######################################################"
+# Install consul if not available
+if ! command -v consul &> /dev/null; then
+    echo "Downloading consul..."
+    if wget https://releases.hashicorp.com/consul/1.8.4/consul_1.8.4_linux_amd64.zip; then
+        echo "Consul downloaded successfully"
+        if [ -f consul_1.8.4_linux_amd64.zip ]; then
+            unzip consul_1.8.4_linux_amd64.zip
+            sudo mv consul /usr/local/bin/
+            rm -f consul_1.8.4_linux_amd64.zip
+            echo "Consul installed successfully."
+        else
+            echo "Error: consul zip file not found after download"
+            exit 1
+        fi
+    else
+        echo "Error: Failed to download consul"
+        exit 1
+    fi
+else
+    echo "Consul is already installed."
+fi
+
+echo "## [ install vault ] ######################################################"
+# Install vault if not available
+if ! command -v vault &> /dev/null; then
+    VAULT_VERSION="1.3.1"
+    echo "Downloading vault..."
+    if wget https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip; then
+        echo "Vault downloaded successfully"
+        if [ -f vault_${VAULT_VERSION}_linux_amd64.zip ]; then
+            unzip vault_${VAULT_VERSION}_linux_amd64.zip
+            sudo mv vault /usr/local/bin/
+            rm -f vault_${VAULT_VERSION}_linux_amd64.zip
+            echo "Vault installed successfully."
+        else
+            echo "Error: vault zip file not found after download"
+            exit 1
+        fi
+    else
+        echo "Error: Failed to download vault"
+        exit 1
+    fi
+else
+    echo "Vault is already installed."
+fi
 
 exit 0
 
