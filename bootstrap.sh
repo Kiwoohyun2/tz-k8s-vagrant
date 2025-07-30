@@ -96,9 +96,10 @@ fi
 
 MYKEY=tz_rsa
 if [ ! -f .ssh/${MYKEY} ]; then
-  mkdir -p .ssh \
-    && cd .ssh \
-    && ssh-keygen -t rsa -C ${MYKEY} -P "" -f ${MYKEY} -q
+  mkdir -p .ssh
+  cd .ssh
+  ssh-keygen -t rsa -C ${MYKEY} -P "" -f ${MYKEY} -q
+  cd ..
   echo "Make ssh key files: ${MYKEY}"
 else
   echo "Use existing ssh key files: ${MYKEY}"
@@ -141,7 +142,9 @@ if [[ "${EVENT}" == "up" ]]; then
     echo "##################################################################################"
     echo 'Fix SSH key permissions in VM'
     echo "##################################################################################"
-    vagrant ssh kube-master -- -t "sudo chmod 600 /root/.ssh/tz_rsa && sudo chmod 644 /root/.ssh/tz_rsa.pub"
+    $VAGRANT_CMD ssh kube-master -- -t "sudo chmod 600 /root/.ssh/tz_rsa && sudo chmod 644 /root/.ssh/tz_rsa.pub"
+    $VAGRANT_CMD ssh kube-node-1 -- -t "sudo chmod 600 /root/.ssh/tz_rsa && sudo chmod 644 /root/.ssh/tz_rsa.pub"
+    $VAGRANT_CMD ssh kube-node-2 -- -t "sudo chmod 600 /root/.ssh/tz_rsa && sudo chmod 644 /root/.ssh/tz_rsa.pub"
     echo "##################################################################################"
     echo 'vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/kubespray.sh"'
     echo "##################################################################################"
@@ -155,7 +158,7 @@ if [[ "${EVENT}" == "up" ]]; then
     while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
         echo "Attempt $((RETRY_COUNT + 1)) of $MAX_RETRIES"
         
-        if vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/kubespray.sh"; then
+        if $VAGRANT_CMD ssh kube-master -- -t "sudo bash /vagrant/scripts/local/kubespray.sh"; then
             echo "Kubespray installation completed successfully!"
             break
         else
@@ -176,20 +179,20 @@ if [[ "${EVENT}" == "up" ]]; then
     echo 'vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/master_01.sh"'
     echo "##################################################################################"
     sleep 5
-    vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/master_01.sh"
+    $VAGRANT_CMD ssh kube-master -- -t "sudo bash /vagrant/scripts/local/master_01.sh"
   fi
 elif [[ "${EVENT}" == "save" || "${EVENT}" == "restore" || "${EVENT}" == "delete" || "${EVENT}" == "list" ]]; then
   if [[ "${EVENT}" == "save" ]]; then
     item=$(date +"%Y%m%d-%H%M%S")
     echo vagrant snapshot ${EVENT} ${item}
-    vagrant snapshot ${EVENT} ${item}
+    $VAGRANT_CMD snapshot ${EVENT} ${item}
   elif [[ "${EVENT}" == "restore" || "${EVENT}" == "delete" ]]; then
     echo vagrant snapshot ${EVENT} ${2}
-    vagrant snapshot ${EVENT} ${2}
+    $VAGRANT_CMD snapshot ${EVENT} ${2}
   fi
   if [[ "${EVENT}" != "delete" ]]; then
     echo vagrant snapshot list
-    vagrant snapshot list
+    $VAGRANT_CMD snapshot list
   fi
   exit 0
 else
@@ -198,45 +201,62 @@ else
       echo "##################################################################################"
       echo 'Fix SSH key permissions in VM'
       echo "##################################################################################"
-      vagrant ssh kube-master -- -t "sudo chmod 600 /root/.ssh/tz_rsa && sudo chmod 644 /root/.ssh/tz_rsa.pub"
-      vagrant ssh kube-node-1 -- -t "sudo chmod 600 /root/.ssh/tz_rsa && sudo chmod 644 /root/.ssh/tz_rsa.pub"
-      vagrant ssh kube-node-2 -- -t "sudo chmod 600 /root/.ssh/tz_rsa && sudo chmod 644 /root/.ssh/tz_rsa.pub"
+      $VAGRANT_CMD ssh kube-master -- -t "sudo chmod 600 /root/.ssh/tz_rsa && sudo chmod 644 /root/.ssh/tz_rsa.pub"
+      $VAGRANT_CMD ssh kube-node-1 -- -t "sudo chmod 600 /root/.ssh/tz_rsa && sudo chmod 644 /root/.ssh/tz_rsa.pub"
+      $VAGRANT_CMD ssh kube-node-2 -- -t "sudo chmod 600 /root/.ssh/tz_rsa && sudo chmod 644 /root/.ssh/tz_rsa.pub"
       echo "##################################################################################"
       echo 'vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/kubespray.sh"'
       echo "##################################################################################"
       sleep 5
       
-      # Execute kubespray with error handling
-      if vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/kubespray.sh"; then
-          echo "Kubespray installation completed successfully!"
-      else
-          echo "Error: Kubespray installation failed"
-          echo "Please check the logs and try again"
-          exit 1
-      fi
+      # Execute kubespray with retry logic
+      echo "Starting kubespray installation with retry logic..."
+      MAX_RETRIES=3
+      RETRY_COUNT=0
+
+      while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+          echo "Attempt $((RETRY_COUNT + 1)) of $MAX_RETRIES"
+          
+          if $VAGRANT_CMD ssh kube-master -- -t "sudo bash /vagrant/scripts/local/kubespray.sh"; then
+              echo "Kubespray installation completed successfully!"
+              break
+          else
+              RETRY_COUNT=$((RETRY_COUNT + 1))
+              echo "Kubespray installation failed. Attempt $RETRY_COUNT of $MAX_RETRIES"
+              
+              if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
+                  echo "Waiting 60 seconds before retry..."
+                  sleep 60
+                  echo "Retrying kubespray installation..."
+              else
+                  echo "All retry attempts failed. Please check the logs and try again"
+                  exit 1
+              fi
+          fi
+      done
       echo "##################################################################################"
       echo 'vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/master_01.sh"'
       echo "##################################################################################"
       sleep 5
-      vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/master_01.sh"
+      $VAGRANT_CMD ssh kube-master -- -t "sudo bash /vagrant/scripts/local/master_01.sh"
     fi
   else
     sleep 5
     echo "##################################################################################"
     echo "vagrant ${EVENT}"
     echo "##################################################################################"
-    vagrant ${EVENT}
+    $VAGRANT_CMD ${EVENT}
   fi
 fi
 
 #vagrant kube-master -c "ifconfig" | grep eth1 -A 1 | tail -n 1 | awk '{print $2}'
 
 for item in "${PROJECTS[@]}"; do
-  IP=`vagrant ssh ${item} -c "ifconfig" | grep eth1 -A 1 | tail -n 1 | awk '{print $2}'`
+  IP=`$VAGRANT_CMD ssh ${item} -c "ifconfig" | grep eth1 -A 1 | tail -n 1 | awk '{print $2}'`
   echo ${item} ansible_host=${IP} ip=${IP} ansible_user=root ansible_ssh_private_key_file=/root/.ssh/tz_rsa ansible_ssh_extra_args='-o StrictHostKeyChecking=no' ansible_port=22 >> info
 done
 for item in "${PROJECTS[@]}"; do
-  IP=`vagrant ssh ${item} -c "ifconfig" | grep eth1 -A 1 | tail -n 1 | awk '{print $2}'`
+  IP=`$VAGRANT_CMD ssh ${item} -c "ifconfig" | grep eth1 -A 1 | tail -n 1 | awk '{print $2}'`
   echo ${IP}   ${item} >> info
 done
 

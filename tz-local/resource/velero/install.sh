@@ -16,7 +16,7 @@ basic_password=$(prop 'project' 'basic_password')
 k8s_domain=$(prop 'project' 'domain')
 NS=devops
 
-wget https://github.com/vmware-tanzu/velero/releases/download/v1.10.3/velero-v1.10.3-linux-amd64.tar.gz
+wget --no-check-certificate https://github.com/vmware-tanzu/velero/releases/download/v1.10.3/velero-v1.10.3-linux-amd64.tar.gz
 tar -xvzf velero-v1.10.3-linux-amd64.tar.gz
 sudo mv velero-v1.10.3-linux-amd64/velero /usr/local/bin/velero
 
@@ -77,7 +77,7 @@ kubectl get deployment/velero -n velero
 #velero snapshot-location create default --provider aws/volume-snapshotter-plugin
 
 VERSION="v1.9.3"
-wget https://github.com/vmware-tanzu/velero/releases/download/${VERSION}/velero-${VERSION}-linux-amd64.tar.gz && \
+wget --no-check-certificate https://github.com/vmware-tanzu/velero/releases/download/${VERSION}/velero-${VERSION}-linux-amd64.tar.gz && \
   tar -xvzf velero-${VERSION}-linux-amd64.tar.gz && \
   sudo mv velero-${VERSION}-linux-amd64/velero /usr/local/bin/velero && \
   rm -Rf velero-${VERSION}-linux-amd64.tar.gz && \

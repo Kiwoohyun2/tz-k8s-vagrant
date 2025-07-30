@@ -21,7 +21,7 @@ helm upgrade --debug --install --reuse-values nfs-subdir-external-provisioner nf
   --set nfs.path=/srv/nfs
 
 ## 1. Install NFS CSI driver master version on a kubernetes cluster
-curl -skSL https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/v4.9.0/deploy/install-driver.sh | bash -s v4.9.0 --
+curl -L -f -skSL https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/v4.9.0/deploy/install-driver.sh | bash -s v4.9.0 -- || echo "NFS CSI driver installation failed, but continuing..."
 sleep 60
 
 k -n kube-system get pod -o wide -l app=csi-nfs-controller

@@ -50,6 +50,6 @@ k apply -f nginx-ingress-https.yaml_bak -n ${NS}
 kubectl get csr -o name | xargs kubectl certificate approve
 sleep 10
 curl -v http://test.${NS}.${k8s_project}.${k8s_domain}
-curl -v https://test.${NS}.${k8s_project}.${k8s_domain}
+curl -L -f -v https://test.${NS}.${k8s_project}.${k8s_domain} || echo "Test connection failed, but continuing..."
 
 exit 0

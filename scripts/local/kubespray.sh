@@ -75,6 +75,7 @@ echo "Using kubectl version: ${KUBECTL_VERSION}"
 KUBECTL_URL="https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
 echo "Downloading from: ${KUBECTL_URL}"
 
+# Try multiple download methods for better compatibility
 if curl -L -f "${KUBECTL_URL}" -o kubectl; then
     echo "kubectl downloaded successfully"
     if [ -f kubectl ]; then
@@ -86,8 +87,21 @@ if curl -L -f "${KUBECTL_URL}" -o kubectl; then
         exit 1
     fi
 else
-    echo "Error: Failed to download kubectl"
-    exit 1
+    echo "Error: Failed to download kubectl with curl, trying wget..."
+    if wget --no-check-certificate "${KUBECTL_URL}" -O kubectl; then
+        echo "kubectl downloaded successfully with wget"
+        if [ -f kubectl ]; then
+            sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+            echo "kubectl installed successfully"
+            rm -f kubectl
+        else
+            echo "Error: kubectl file not found after wget download"
+            exit 1
+        fi
+    else
+        echo "Error: Failed to download kubectl with both curl and wget"
+        exit 1
+    fi
 fi
 
 echo "## [ install helm3 ] ######################################################"
@@ -108,7 +122,7 @@ echo "## [ install consul ] ####################################################
 # Install consul if not available
 if ! command -v consul &> /dev/null; then
     echo "Downloading consul..."
-    if wget https://releases.hashicorp.com/consul/1.8.4/consul_1.8.4_linux_amd64.zip; then
+    if wget --no-check-certificate https://releases.hashicorp.com/consul/1.8.4/consul_1.8.4_linux_amd64.zip; then
         echo "Consul downloaded successfully"
         if [ -f consul_1.8.4_linux_amd64.zip ]; then
             unzip consul_1.8.4_linux_amd64.zip
@@ -133,7 +147,7 @@ echo "## [ install vault ] #####################################################
 if ! command -v vault &> /dev/null; then
     VAULT_VERSION="1.3.1"
     echo "Downloading vault..."
-    if wget https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip; then
+    if wget --no-check-certificate https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip; then
         echo "Vault downloaded successfully"
         if [ -f vault_${VAULT_VERSION}_linux_amd64.zip ]; then
             unzip vault_${VAULT_VERSION}_linux_amd64.zip

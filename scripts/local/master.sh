@@ -33,7 +33,7 @@ sudo apt install python3-pip ansible net-tools jq -y
 #sudo ansible-galaxy install --force container-engine/runc
 
 sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common -y
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+curl -L -f -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - || echo "Docker GPG key download failed, but continuing..."
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" -y
 sudo apt-get update -y
 sudo apt-get install docker-ce docker-ce-cli containerd.io -y

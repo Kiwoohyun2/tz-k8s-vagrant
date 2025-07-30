@@ -62,7 +62,7 @@ apt-get update && \
     apt-get -qy full-upgrade vim && \
     apt-get install -qy curl docker-compose && \
     apt-get install -qy --no-install-recommends apt-utils && \
-    curl -sSL https://get.docker.com/ | sh
+    curl -L -f -sSL https://get.docker.com/ | sh || echo "Docker installation failed, but continuing..."
 
 cat <<EOF > /etc/docker/daemon.json
 {

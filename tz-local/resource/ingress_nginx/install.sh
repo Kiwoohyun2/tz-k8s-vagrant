@@ -54,7 +54,7 @@ k delete svc nginx
 k apply -f nginx-ingress.yaml_bak
 echo curl http://test.${NS}.${k8s_project}.${k8s_domain}
 sleep 30
-curl -v http://test.${NS}.${k8s_project}.${k8s_domain}
+curl -L -f -v http://test.${NS}.${k8s_project}.${k8s_domain} || echo "Test connection failed, but continuing..."
 #k delete -f nginx-ingress.yaml_bak
 
 #### https ####

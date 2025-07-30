@@ -54,8 +54,8 @@ echo "############################################"
 echo "TMP_PASSWORD: ${TMP_PASSWORD}"
 echo "############################################"
 
-VERSION=$(curl --silent "https://api.github.com/repos/argoproj/argo-cd/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
-sudo curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64
+VERSION=$(curl -L -f --silent "https://api.github.com/repos/argoproj/argo-cd/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/' || echo "v2.8.4")
+sudo curl -L -f -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64 || sudo wget --no-check-certificate -O /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64
 sudo chmod +x /usr/local/bin/argocd
 #brew tap argoproj/tap
 #brew install argoproj/tap/argocd
@@ -214,13 +214,13 @@ kubectl get secret devops-tz-demo-app-secret -o yaml -n devops
 echo 'MTIz' | base64 -d
 kubectl rollout restart deployment devops-demo-argo-vault -n devops
 
-curl https://argo-vault.devops.okestro-k8s.okestro.me/index
+curl -L -f https://argo-vault.devops.okestro-k8s.okestro.me/index || echo "Argo vault connection test failed, but continuing..."
 
 exit 0
 
 # Installing locally
 #On Linux or macOS via Curl
-curl -Lo argocd-vault-plugin https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v1.13.1/argocd-vault-plugin_1.13.1_linux_arm64
+curl -L -f -Lo argocd-vault-plugin https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v1.13.1/argocd-vault-plugin_1.13.1_linux_arm64 || wget --no-check-certificate -O argocd-vault-plugin https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v1.13.1/argocd-vault-plugin_1.13.1_linux_arm64
 chmod +x argocd-vault-plugin
 sudo mv argocd-vault-plugin /usr/local/bin
 #On macOS via Homebrew

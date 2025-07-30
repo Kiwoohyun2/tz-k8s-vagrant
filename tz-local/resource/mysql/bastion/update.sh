@@ -20,15 +20,15 @@ kubectl -n devops-dev apply -f ubuntu.yaml
 apt-get update -y
 apt-get install -y curl wget jq unzip netcat apt-transport-https gnupg2 redis-tools mysql-client
 
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install --update
+curl -L -f "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install --update
 
-curl -Lo aws-iam-authenticator https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.5.9/aws-iam-authenticator_0.5.9_linux_amd64 && \
+curl -L -f -Lo aws-iam-authenticator https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.5.9/aws-iam-authenticator_0.5.9_linux_amd64 && \
     chmod +x aws-iam-authenticator && \
     sudo mv aws-iam-authenticator /usr/local/bin
 
-curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.23.6/bin/linux/amd64/kubectl && \
+curl -L -f -LO https://storage.googleapis.com/kubernetes-release/release/v1.23.6/bin/linux/amd64/kubectl && \
     chmod 777 kubectl && \
-    mv kubectl /usr/bin/kubectl
+    sudo mv kubectl /usr/bin/kubectl
 
 # 2. upload aws, k8s credentials
 kubectl -n devops-dev cp /root/.k8s devops-dev/bastion:/root/.k8s

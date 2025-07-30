@@ -84,7 +84,7 @@ if [[ "${VAULT_TOKEN_NEW}" != "" ]]; then
 fi
 
 VAULT_VERSION="1.3.1"
-curl -sO https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip
+curl -L -f -sO https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip || wget --no-check-certificate https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip
 unzip vault_${VAULT_VERSION}_linux_amd64.zip
 rm -Rf vault_${VAULT_VERSION}_linux_amd64.zip
 sudo mv vault /usr/local/bin/
