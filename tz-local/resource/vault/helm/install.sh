@@ -87,7 +87,8 @@ VAULT_VERSION="1.3.1"
 curl -sO https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip
 unzip vault_${VAULT_VERSION}_linux_amd64.zip
 rm -Rf vault_${VAULT_VERSION}_linux_amd64.zip
-mv vault /usr/local/bin/
+sudo mv vault /usr/local/bin/
+sudo chmod +x /usr/local/bin/vault
 vault --version
 
 echo "run it in vault pods!: vault operator unseal"

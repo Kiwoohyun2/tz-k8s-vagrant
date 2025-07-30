@@ -56,7 +56,8 @@ echo https://$CONSUL_HTTP_ADDR
 wget https://releases.hashicorp.com/consul/1.8.4/consul_1.8.4_linux_amd64.zip && \
     unzip consul_1.8.4_linux_amd64.zip && \
     rm -Rf consul_1.8.4_linux_amd64.zip && \
-    mv consul /usr/local/bin/
+    sudo mv consul /usr/local/bin/ && \
+    sudo chmod +x /usr/local/bin/consul
 
 consul members
 

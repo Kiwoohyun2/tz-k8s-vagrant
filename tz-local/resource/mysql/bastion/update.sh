@@ -24,7 +24,7 @@ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip
 
 curl -Lo aws-iam-authenticator https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.5.9/aws-iam-authenticator_0.5.9_linux_amd64 && \
     chmod +x aws-iam-authenticator && \
-    mv aws-iam-authenticator /usr/local/bin
+    sudo mv aws-iam-authenticator /usr/local/bin
 
 curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.23.6/bin/linux/amd64/kubectl && \
     chmod 777 kubectl && \

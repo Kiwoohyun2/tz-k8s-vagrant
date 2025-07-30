@@ -222,7 +222,7 @@ exit 0
 #On Linux or macOS via Curl
 curl -Lo argocd-vault-plugin https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v1.13.1/argocd-vault-plugin_1.13.1_linux_arm64
 chmod +x argocd-vault-plugin
-mv argocd-vault-plugin /usr/local/bin
+sudo mv argocd-vault-plugin /usr/local/bin
 #On macOS via Homebrew
 brew install argocd-vault-plugin
 

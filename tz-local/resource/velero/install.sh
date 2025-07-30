@@ -79,7 +79,7 @@ kubectl get deployment/velero -n velero
 VERSION="v1.9.3"
 wget https://github.com/vmware-tanzu/velero/releases/download/${VERSION}/velero-${VERSION}-linux-amd64.tar.gz && \
   tar -xvzf velero-${VERSION}-linux-amd64.tar.gz && \
-  mv velero-${VERSION}-linux-amd64/velero /usr/local/bin/velero && \
+  sudo mv velero-${VERSION}-linux-amd64/velero /usr/local/bin/velero && \
   rm -Rf velero-${VERSION}-linux-amd64.tar.gz && \
   rm -Rf velero-${VERSION}-linux-amd64
 
