@@ -147,14 +147,31 @@ if [[ "${EVENT}" == "up" ]]; then
     echo "##################################################################################"
     sleep 5
     
-    # Execute kubespray with error handling
-    if vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/kubespray.sh"; then
-        echo "Kubespray installation completed successfully!"
-    else
-        echo "Error: Kubespray installation failed"
-        echo "Please check the logs and try again"
-        exit 1
-    fi
+    # Execute kubespray with retry logic
+    echo "Starting kubespray installation with retry logic..."
+    MAX_RETRIES=3
+    RETRY_COUNT=0
+
+    while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+        echo "Attempt $((RETRY_COUNT + 1)) of $MAX_RETRIES"
+        
+        if vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/kubespray.sh"; then
+            echo "Kubespray installation completed successfully!"
+            break
+        else
+            RETRY_COUNT=$((RETRY_COUNT + 1))
+            echo "Kubespray installation failed. Attempt $RETRY_COUNT of $MAX_RETRIES"
+            
+            if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
+                echo "Waiting 60 seconds before retry..."
+                sleep 60
+                echo "Retrying kubespray installation..."
+            else
+                echo "All retry attempts failed. Please check the logs and try again"
+                exit 1
+            fi
+        fi
+    done
     echo "##################################################################################"
     echo 'vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/master_01.sh"'
     echo "##################################################################################"
@@ -182,6 +199,8 @@ else
       echo 'Fix SSH key permissions in VM'
       echo "##################################################################################"
       vagrant ssh kube-master -- -t "sudo chmod 600 /root/.ssh/tz_rsa && sudo chmod 644 /root/.ssh/tz_rsa.pub"
+      vagrant ssh kube-node-1 -- -t "sudo chmod 600 /root/.ssh/tz_rsa && sudo chmod 644 /root/.ssh/tz_rsa.pub"
+      vagrant ssh kube-node-2 -- -t "sudo chmod 600 /root/.ssh/tz_rsa && sudo chmod 644 /root/.ssh/tz_rsa.pub"
       echo "##################################################################################"
       echo 'vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/kubespray.sh"'
       echo "##################################################################################"
