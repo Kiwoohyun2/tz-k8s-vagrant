@@ -146,7 +146,15 @@ if [[ "${EVENT}" == "up" ]]; then
     echo 'vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/kubespray.sh"'
     echo "##################################################################################"
     sleep 5
-    vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/kubespray.sh"
+    
+    # Execute kubespray with error handling
+    if vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/kubespray.sh"; then
+        echo "Kubespray installation completed successfully!"
+    else
+        echo "Error: Kubespray installation failed"
+        echo "Please check the logs and try again"
+        exit 1
+    fi
     echo "##################################################################################"
     echo 'vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/master_01.sh"'
     echo "##################################################################################"
@@ -178,7 +186,15 @@ else
       echo 'vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/kubespray.sh"'
       echo "##################################################################################"
       sleep 5
-      vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/kubespray.sh"
+      
+      # Execute kubespray with error handling
+      if vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/kubespray.sh"; then
+          echo "Kubespray installation completed successfully!"
+      else
+          echo "Error: Kubespray installation failed"
+          echo "Please check the logs and try again"
+          exit 1
+      fi
       echo "##################################################################################"
       echo 'vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/master_01.sh"'
       echo "##################################################################################"
