@@ -3,6 +3,17 @@
 export MSYS_NO_PATHCONV=1
 export tz_project=devops-utils
 
+# Add Vagrant to PATH if not found
+if ! command -v vagrant &> /dev/null; then
+    export PATH="$PATH:/c/Program Files/Vagrant/bin"
+fi
+
+# Define vagrant command with full path if needed
+VAGRANT_CMD="vagrant"
+if ! command -v vagrant &> /dev/null; then
+    VAGRANT_CMD="/c/Program Files/Vagrant/bin/vagrant.exe"
+fi
+
 #set -x
 
 WORKING_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -38,21 +49,21 @@ fi
 PROVISION=''
 if [[ "$1" == "halt" ]]; then
   echo "vagrant halt"
-  vagrant halt
+  $VAGRANT_CMD halt
   exit 0
 elif [[ "$1" == "status" ]]; then
   echo "vagrant status"
-  vagrant status
+  $VAGRANT_CMD status
   exit 0
 elif [[ "$1" == "ssh" ]]; then
   echo "vagrant ssh kube-master"
-  vagrant ssh kube-master
+  $VAGRANT_CMD ssh kube-master
   exit 0
 elif [[ "$1" == "provision" ]]; then
   PROVISION='y'
 elif [[ "$1" == "remove" ]]; then
   echo "vagrant destroy -f"
-  vagrant destroy -f
+  $VAGRANT_CMD destroy -f
   git checkout Vagrantfile
   rm -Rf info
   exit 0
@@ -102,7 +113,7 @@ cp -Rf Vagrantfile Vagrantfile.bak
 if [[ "${1}" == "save" || "${1}" == "restore" || "${1}" == "delete" || "${1}" == "list" ]]; then
   EVENT=${1}
 else
-  EVENT=`vagrant status | grep -E 'kube-master|kube-slave-1' | grep 'not created'`
+  EVENT=`$VAGRANT_CMD status | grep -E 'kube-master|kube-slave-1' | grep 'not created'`
   if [[ "${EVENT}" != "" ]]; then
     EVENT='up'
   else
@@ -125,7 +136,7 @@ if [[ "${EVENT}" == "up" ]]; then
   echo 'vagrant ${EVENT} --provider=virtualbox'
   echo "##################################################################################"
   sleep 5
-  vagrant ${EVENT} --provider=virtualbox
+  $VAGRANT_CMD ${EVENT} --provider=virtualbox
   if [[ "${A_ENV}" == "M" ]]; then
     echo "##################################################################################"
     echo 'Fix SSH key permissions in VM'
