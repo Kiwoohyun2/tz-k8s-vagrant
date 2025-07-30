@@ -49,42 +49,11 @@ iptables -t mangle -F
 iptables -t mangle -X
 rm -Rf $HOME/.kube
 
-# install k8s with retry logic
-echo "## [ Installing Kubernetes with kubespray ] ######################################################"
-MAX_RETRIES=3
-RETRY_COUNT=0
-
-while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-    echo "Attempt $((RETRY_COUNT + 1)) of $MAX_RETRIES"
-    
-    if ansible-playbook -u root -i resource/kubespray/inventory.ini \
-      --private-key .ssh/tz_rsa --become --become-user=root \
-      kubespray/cluster.yml; then
-        echo "Kubernetes installation completed successfully!"
-        break
-    else
-        RETRY_COUNT=$((RETRY_COUNT + 1))
-        echo "Kubernetes installation failed. Attempt $RETRY_COUNT of $MAX_RETRIES"
-        
-        if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
-            echo "Waiting 30 seconds before retry..."
-            sleep 30
-            echo "Retrying kubespray installation..."
-        else
-            echo "All retry attempts failed. Exiting..."
-            exit 1
-        fi
-    fi
-done
-
-# Verify Kubernetes installation
-echo "## [ Verifying Kubernetes installation ] ######################################################"
-if ! kubectl get nodes; then
-    echo "Error: Kubernetes installation verification failed"
-    echo "Checking kubelet status..."
-    sudo systemctl status kubelet
-    exit 1
-fi
+# install k8s
+ansible-playbook -u root -i resource/kubespray/inventory.ini \
+  --private-key .ssh/tz_rsa --become --become-user=root \
+  kubespray/cluster.yml
+#ansible-playbook -i resource/kubespray/inventory.ini --become --become-user=root cluster.yml
 
 sudo cp -Rf /root/.kube /home/topzone/
 sudo chown -Rf topzone:topzone /home/topzone/.kube
