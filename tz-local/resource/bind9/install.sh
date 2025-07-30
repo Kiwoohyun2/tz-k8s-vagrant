@@ -23,7 +23,7 @@ nameserver 8.8.8.8
 options edns0 trust-ad
 EOF
 
-sudo apt install bind9 bind9utils bind9-doc -y
+sudo apt-get install bind9 bind9utils bind9-doc -y
 
 sed -i "s/-u bind/-u bind -4/g" /etc/default/named
 

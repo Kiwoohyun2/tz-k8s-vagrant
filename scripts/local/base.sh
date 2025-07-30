@@ -43,7 +43,7 @@ sudo swapoff -a
 sudo sed -i '/swap/d' /etc/fstab
 #sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 sudo apt-get update
-sudo apt install -y python3 python3-pip net-tools git runc
+sudo apt-get install -y python3 python3-pip net-tools git runc
 
 #sudo apt install --reinstall ca-certificates -y
 
@@ -68,7 +68,7 @@ sudo sysctl --system
 sudo ufw disable
 
 apt update
-apt install -y nfs-server nfs-common
+apt-get install -y nfs-server nfs-common
 mkdir /srv/nfs
 sudo chown nobody:nogroup /srv/nfs
 sudo chmod 0777 /srv/nfs
@@ -78,7 +78,7 @@ EOF
 systemctl enable --now nfs-server
 exportfs -ar
 
-apt install ntp -y
+apt-get install ntp -y
 systemctl start ntp
 systemctl enable ntp
 #ntpdate pool.ntp.org

@@ -20,6 +20,10 @@ cp -Rf resource/kubespray/inventory.ini kubespray/inventory/test-cluster/invento
 cp -Rf scripts/local/config.cfg /root/.ssh/config
 
 cd kubespray
+# Fix Ansible version compatibility issue
+echo "Installing specific Ansible version for Kubespray compatibility..."
+sudo pip3 uninstall -y ansible
+sudo pip3 install "ansible>=2.16.4,<2.17.0"
 sudo pip3 install -r requirements.txt
 cd ..
 

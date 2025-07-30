@@ -28,7 +28,7 @@ bash /vagrant/scripts/local/base.sh
 
 sudo apt-add-repository ppa:ansible/ansible -y
 sudo apt update
-sudo apt install python3-pip ansible net-tools jq -y
+sudo apt-get install python3-pip ansible net-tools jq -y
 #sudo pip install --upgrade ansible
 #sudo ansible-galaxy install --force container-engine/runc
 
