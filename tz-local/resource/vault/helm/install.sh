@@ -32,8 +32,28 @@ helm upgrade --debug --install vault hashicorp/vault -n vault -f values_cert.yam
 kubectl taint nodes --all node-role.kubernetes.io/master-
 #kubectl rollout restart statefulset.apps/vault -n vault
 
+# Wait for vault pod to be scheduled and ready
+echo "Waiting for vault pod to be scheduled..."
 sleep 30
 k get all -n vault
+
+# Check if vault pod is running, if not wait longer
+VAULT_POD_STATUS=$(k get pod vault-0 -n vault -o jsonpath='{.status.phase}' 2>/dev/null || echo "Pending")
+while [[ "${VAULT_POD_STATUS}" != "Running" ]]; do
+    echo "Vault pod status: ${VAULT_POD_STATUS}, waiting..."
+    sleep 30
+    VAULT_POD_STATUS=$(k get pod vault-0 -n vault -o jsonpath='{.status.phase}' 2>/dev/null || echo "Pending")
+    
+    # Check if pod is stuck in Pending state
+    if [[ "${VAULT_POD_STATUS}" == "Pending" ]]; then
+        echo "Vault pod is stuck in Pending state, checking node resources..."
+        k describe pod vault-0 -n vault
+        echo "Checking node resources..."
+        k top nodes
+        echo "Checking available nodes..."
+        k get nodes
+    fi
+done
 
 cp -Rf values_config.yaml values_config.yaml_bak
 sed -i "s/k8s_project/${k8s_project}/g" values_config.yaml_bak
@@ -69,12 +89,25 @@ sleep 30
 echo "#######################################################"
 echo "Initial Root Token vault!!!"
 echo "#######################################################"
-kubectl -n vault exec -ti vault-0 -- vault operator init -key-shares=3 -key-threshold=2 | sed 's/\x1b\[[0-9;]*m//g' > /vagrant/resources/unseal.txt
-sleep 20
-VAULT_TOKEN_NEW=$(cat /vagrant/resources/unseal.txt | grep "Initial Root Token:" | tail -n 1 | awk '{print $4}')
-echo "#######################################################"
-echo "VAULT_TOKEN_NEW: ${VAULT_TOKEN_NEW}"
-echo "#######################################################"
+
+# Ensure vault pod is ready before initializing
+echo "Ensuring vault pod is ready..."
+k wait --for=condition=ready pod/vault-0 -n vault --timeout=300s
+
+# Initialize vault with error handling
+echo "Initializing vault..."
+if kubectl -n vault exec -ti vault-0 -- vault operator init -key-shares=3 -key-threshold=2 | sed 's/\x1b\[[0-9;]*m//g' > /vagrant/resources/unseal.txt; then
+    sleep 20
+    VAULT_TOKEN_NEW=$(cat /vagrant/resources/unseal.txt | grep "Initial Root Token:" | tail -n 1 | awk '{print $4}')
+    echo "#######################################################"
+    echo "VAULT_TOKEN_NEW: ${VAULT_TOKEN_NEW}"
+    echo "#######################################################"
+else
+    echo "#######################################################"
+    echo "ERROR: Vault initialization failed!"
+    echo "#######################################################"
+    VAULT_TOKEN_NEW=""
+fi
 if [[ "${VAULT_TOKEN_NEW}" != "" ]]; then
   awk '!/vault=/' /vagrant/resources/project > tmpfile && mv tmpfile /vagrant/resources/project
   echo "vault=${VAULT_TOKEN_NEW}" >> /vagrant/resources/project

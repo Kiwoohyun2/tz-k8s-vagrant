@@ -39,7 +39,8 @@ cd kubespray
 # Fix Ansible version compatibility issue
 echo "Installing specific Ansible version for Kubespray compatibility..."
 sudo pip3 uninstall -y ansible
-sudo pip3 install "ansible==2.10.7"
+sudo pip3 cache purge
+sudo pip3 install --no-cache-dir --timeout=300 "ansible==2.10.7"
 sudo pip3 install -r requirements.txt
 cd ..
 

@@ -29,7 +29,8 @@ bash /vagrant/scripts/local/base.sh
 # Use pip to install ansible instead of PPA for better stability
 sudo apt-get update
 sudo apt-get install python3-pip net-tools jq -y
-sudo pip3 install "ansible==2.10.7"
+sudo pip3 cache purge
+sudo pip3 install --no-cache-dir --timeout=300 "ansible==2.10.7"
 #sudo pip install --upgrade ansible
 #sudo ansible-galaxy install --force container-engine/runc
 
