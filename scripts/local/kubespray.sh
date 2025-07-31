@@ -30,14 +30,16 @@ echo "Fixing all symlink issues..."
 find . -type l -delete
 find . -name "*.py" -path "*/library/*" -exec rm -f {} \;
 
-# Recreate all necessary symlinks
+# Copy all necessary modules (Kubespray 2.22+ compatibility)
 if [ -d "plugins/modules" ] && [ -d "library" ]; then
     cd library
     for file in ../plugins/modules/*.py; do
         if [ -f "$file" ]; then
             filename=$(basename "$file")
-            ln -sf "../plugins/modules/$filename" "$filename"
-            echo "Created symlink: $filename"
+            # Copy instead of symlink for Windows Git Bash compatibility
+            cp "$file" "$filename"
+            chmod +x "$filename"
+            echo "Copied module: $filename"
         fi
     done
     cd ..
@@ -48,39 +50,16 @@ echo "Configuring Ansible for better module discovery..."
 mkdir -p ~/.ansible/collections/ansible_collections/kubernetes/core/plugins/modules
 ln -sf /vagrant/kubespray/plugins/modules/* ~/.ansible/collections/ansible_collections/kubernetes/core/plugins/modules/
 
-# Verify kube.py symlink
-echo "Verifying kube.py symlink..."
-if [ -L "library/kube.py" ]; then
-    echo "kube.py symlink is correct"
-    ls -la library/kube.py
-else
-    echo "ERROR: kube.py symlink is broken, recreating..."
-    cd library
-    rm -f kube.py
-    ln -sf ../plugins/modules/kube.py kube.py
-    ls -la kube.py
-    cd ..
-fi
-
-# Force recreate kube.py symlink with absolute path
-echo "Force recreating kube.py symlink..."
-cd library
-rm -f kube.py
-ln -sf /vagrant/kubespray/plugins/modules/kube.py kube.py
-echo "kube.py symlink status:"
-ls -la kube.py
-cd ..
-
-# Additional verification
-echo "Additional kube module verification..."
+# Verify kube.py module (Kubespray 2.22+ compatibility)
+echo "Verifying kube.py module..."
 if [ -f "plugins/modules/kube.py" ]; then
     echo "✓ kube.py exists in plugins/modules"
-    if [ -L "library/kube.py" ]; then
-        echo "✓ kube.py symlink exists in library"
-        echo "Symlink target:"
-        readlink library/kube.py
+    if [ -f "library/kube.py" ]; then
+        echo "✓ kube.py copied to library successfully"
+        echo "File verification:"
+        head -3 library/kube.py
     else
-        echo "✗ kube.py symlink missing in library"
+        echo "✗ kube.py not found in library"
     fi
 else
     echo "✗ kube.py missing in plugins/modules!"
@@ -110,14 +89,20 @@ retry_files_enabled = False
 collections_paths = /vagrant/kubespray/plugins
 EOF
 
-# Force copy kube module to ensure it's available
-echo "Ensuring kube module is available..."
+# Force copy kube module to ensure it's available (Kubespray 2.22+ fix)
+echo "Ensuring kube module is available (Kubespray 2.22+ compatibility)..."
 if [ -f "plugins/modules/kube.py" ]; then
+    # Remove any existing symlink or file
+    rm -f library/kube.py
+    # Copy the actual content (not symlink)
     cp plugins/modules/kube.py library/kube.py
     chmod +x library/kube.py
-    echo "✓ kube.py copied to library"
+    echo "✓ kube.py content copied to library (Kubespray 2.22+ fix)"
+    echo "File verification:"
+    head -5 library/kube.py
 else
     echo "✗ kube.py not found in plugins/modules"
+    ls -la plugins/modules/
 fi
 
 ansible all -i resource/kubespray/inventory.ini -m ping -u root
