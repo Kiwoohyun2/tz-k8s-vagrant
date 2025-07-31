@@ -108,7 +108,7 @@ rm -Rf $HOME/.kube
 echo "Starting Kubernetes cluster installation..."
 ansible-playbook -u root -i resource/kubespray/inventory.ini \
   --private-key .ssh/tz_rsa --become --become-user=root \
-  --timeout=300 --connection-password-file=/dev/null \
+  --timeout=300 \
   kubespray/cluster.yml
 #ansible-playbook -i resource/kubespray/inventory.ini --become --become-user=root cluster.yml
 
