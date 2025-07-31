@@ -19,6 +19,13 @@ cp -Rf resource/kubespray/k8s-cluster.yml kubespray/inventory/test-cluster/group
 cp -Rf resource/kubespray/inventory.ini kubespray/inventory/test-cluster/inventory.ini
 cp -Rf scripts/local/config.cfg /root/.ssh/config
 
+# Fix "module (kube) is missing interpreter line" error
+echo "Fixing kube.py symlink issue..."
+cd kubespray/library
+sudo rm -f kube.py
+sudo ln -s ../../plugins/modules/kube.py kube.py
+cd ../..
+
 cd kubespray
 # Fix Ansible version compatibility issue
 echo "Installing specific Ansible version for Kubespray compatibility..."
