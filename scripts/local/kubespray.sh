@@ -19,20 +19,49 @@ cp -Rf resource/kubespray/k8s-cluster.yml kubespray/inventory/test-cluster/group
 cp -Rf resource/kubespray/inventory.ini kubespray/inventory/test-cluster/inventory.ini
 cp -Rf scripts/local/config.cfg /root/.ssh/config
 
-# Fix "module (kube) is missing interpreter line" error
-echo "Fixing kube.py symlink issue..."
-cd kubespray/library
-sudo rm -f kube.py
-sudo ln -s ../../plugins/modules/kube.py kube.py
-cd ../..
+# Comprehensive fix for Windows Git Bash compatibility issues
+echo "Applying comprehensive fixes for Windows Git Bash compatibility..."
 
-# Fix other potential symlink issues in kubespray
-echo "Checking and fixing other symlink issues..."
+# Fix all symlink issues in kubespray
 cd kubespray
-# Fix any broken symlinks in library directory
-find library -type l -exec test ! -e {} \; -delete
-find library -name "*.py" -not -type l -exec rm -f {} \;
-find library -name "*.py" -exec ln -sf ../../plugins/modules/{} {} \;
+echo "Fixing all symlink issues..."
+
+# Remove all existing symlinks and recreate them properly
+find . -type l -delete
+find . -name "*.py" -path "*/library/*" -exec rm -f {} \;
+
+# Recreate all necessary symlinks
+if [ -d "plugins/modules" ] && [ -d "library" ]; then
+    cd library
+    for file in ../plugins/modules/*.py; do
+        if [ -f "$file" ]; then
+            filename=$(basename "$file")
+            ln -sf "../plugins/modules/$filename" "$filename"
+            echo "Created symlink: $filename"
+        fi
+    done
+    cd ..
+fi
+
+# Fix Ansible configuration for better module discovery
+echo "Configuring Ansible for better module discovery..."
+mkdir -p ~/.ansible/collections/ansible_collections/kubernetes/core/plugins/modules
+ln -sf /vagrant/kubespray/plugins/modules/* ~/.ansible/collections/ansible_collections/kubernetes/core/plugins/modules/
+
+# Verify kube.py symlink
+echo "Verifying kube.py symlink..."
+if [ -L "library/kube.py" ]; then
+    echo "kube.py symlink is correct"
+    ls -la library/kube.py
+else
+    echo "ERROR: kube.py symlink is broken, recreating..."
+    cd library
+    rm -f kube.py
+    ln -sf ../plugins/modules/kube.py kube.py
+    ls -la kube.py
+    cd ..
+fi
+
 cd ..
 
 cd kubespray
@@ -48,6 +77,11 @@ cd ..
 cat <<EOF > /root/ansible.cfg
 [defaults]
 roles_path = /vagrant/kubespray/roles
+library = /vagrant/kubespray/library
+module_utils = /vagrant/kubespray/module_utils
+host_key_checking = False
+timeout = 300
+retry_files_enabled = False
 EOF
 
 ansible all -i resource/kubespray/inventory.ini -m ping -u root
@@ -70,15 +104,26 @@ iptables -t mangle -F
 iptables -t mangle -X
 rm -Rf $HOME/.kube
 
-# install k8s
+# install k8s with comprehensive error handling
+echo "Starting Kubernetes cluster installation..."
 ansible-playbook -u root -i resource/kubespray/inventory.ini \
   --private-key .ssh/tz_rsa --become --become-user=root \
+  --timeout=300 --connection-password-file=/dev/null \
   kubespray/cluster.yml
 #ansible-playbook -i resource/kubespray/inventory.ini --become --become-user=root cluster.yml
 
-sudo cp -Rf /root/.kube /home/topzone/
-sudo chown -Rf topzone:topzone /home/topzone/.kube
-sudo cp -Rf /root/.kube/config /vagrant/.ssh/kubeconfig_tz-k8s-vagrant
+# Copy kubeconfig with error handling
+if [ -d "/root/.kube" ]; then
+    sudo cp -Rf /root/.kube /home/topzone/
+    sudo chown -Rf topzone:topzone /home/topzone/.kube
+    if [ -f "/root/.kube/config" ]; then
+        sudo cp -Rf /root/.kube/config /vagrant/.ssh/kubeconfig_tz-k8s-vagrant
+    else
+        echo "WARNING: /root/.kube/config not found"
+    fi
+else
+    echo "WARNING: /root/.kube directory not found"
+fi
 
 sed -ie "s|127.0.0.1|192.168.0.100|g" /vagrant/.ssh/kubeconfig_tz-k8s-vagrant
 
