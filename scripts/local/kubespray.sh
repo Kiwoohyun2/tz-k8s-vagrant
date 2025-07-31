@@ -62,6 +62,31 @@ else
     cd ..
 fi
 
+# Force recreate kube.py symlink with absolute path
+echo "Force recreating kube.py symlink..."
+cd library
+rm -f kube.py
+ln -sf /vagrant/kubespray/plugins/modules/kube.py kube.py
+echo "kube.py symlink status:"
+ls -la kube.py
+cd ..
+
+# Additional verification
+echo "Additional kube module verification..."
+if [ -f "plugins/modules/kube.py" ]; then
+    echo "✓ kube.py exists in plugins/modules"
+    if [ -L "library/kube.py" ]; then
+        echo "✓ kube.py symlink exists in library"
+        echo "Symlink target:"
+        readlink library/kube.py
+    else
+        echo "✗ kube.py symlink missing in library"
+    fi
+else
+    echo "✗ kube.py missing in plugins/modules!"
+    ls -la plugins/modules/
+fi
+
 cd ..
 
 cd kubespray
@@ -82,7 +107,18 @@ module_utils = /vagrant/kubespray/module_utils
 host_key_checking = False
 timeout = 300
 retry_files_enabled = False
+collections_paths = /vagrant/kubespray/plugins
 EOF
+
+# Force copy kube module to ensure it's available
+echo "Ensuring kube module is available..."
+if [ -f "plugins/modules/kube.py" ]; then
+    cp plugins/modules/kube.py library/kube.py
+    chmod +x library/kube.py
+    echo "✓ kube.py copied to library"
+else
+    echo "✗ kube.py not found in plugins/modules"
+fi
 
 ansible all -i resource/kubespray/inventory.ini -m ping -u root
 ansible all -i resource/kubespray/inventory.ini --list-hosts -u root
