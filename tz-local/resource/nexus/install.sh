@@ -5,7 +5,9 @@ sudo apt-get install openjdk-8-jdk -y
 cd /opt
 wget --no-check-certificate https://download.sonatype.com/nexus/3/nexus-3.30.0-01-unix.tar.gz
 sudo tar -xvf nexus-3.30.0-01-unix.tar.gz
-ln -s nexus-3.30.0-01 nexus
+# Fix symlink issues for Windows Git Bash compatibility
+rm -f nexus
+ln -sf nexus-3.30.0-01 nexus
 
 sudo groupadd nexus
 sudo useradd -m nexus -g nexus -s /bin/bash

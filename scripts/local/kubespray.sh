@@ -26,6 +26,15 @@ sudo rm -f kube.py
 sudo ln -s ../../plugins/modules/kube.py kube.py
 cd ../..
 
+# Fix other potential symlink issues in kubespray
+echo "Checking and fixing other symlink issues..."
+cd kubespray
+# Fix any broken symlinks in library directory
+find library -type l -exec test ! -e {} \; -delete
+find library -name "*.py" -not -type l -exec rm -f {} \;
+find library -name "*.py" -exec ln -sf ../../plugins/modules/{} {} \;
+cd ..
+
 cd kubespray
 # Fix Ansible version compatibility issue
 echo "Installing specific Ansible version for Kubespray compatibility..."

@@ -50,16 +50,18 @@ sudo certbot --nginx -d vault.shoptools.co.kr
 sudo certbot --nginx -d longhorn.shoptools.co.kr
 sudo certbot --nginx -d nexus.okestro-k8s.okestro.me
 
-ln -s /etc/nginx/sites-available/alertmanager alertmanager
-ln -s /etc/nginx/sites-available/grafana grafana
-ln -s /etc/nginx/sites-available/jenkins jenkins
-ln -s /etc/nginx/sites-available/prometheus prometheus
-ln -s /etc/nginx/sites-available/consul consul
-ln -s /etc/nginx/sites-available/vault vault
-ln -s /etc/nginx/sites-available/nexus nexus
-ln -s /etc/nginx/sites-available/argocd argocd
-ln -s /etc/nginx/sites-available/longhorn longhorn
-ln -s /etc/nginx/sites-available/aicreator aicreator
+# Fix symlink issues for Windows Git Bash compatibility
+rm -f alertmanager grafana jenkins prometheus consul vault nexus argocd longhorn aicreator
+ln -sf /etc/nginx/sites-available/alertmanager alertmanager
+ln -sf /etc/nginx/sites-available/grafana grafana
+ln -sf /etc/nginx/sites-available/jenkins jenkins
+ln -sf /etc/nginx/sites-available/prometheus prometheus
+ln -sf /etc/nginx/sites-available/consul consul
+ln -sf /etc/nginx/sites-available/vault vault
+ln -sf /etc/nginx/sites-available/nexus nexus
+ln -sf /etc/nginx/sites-available/argocd argocd
+ln -sf /etc/nginx/sites-available/longhorn longhorn
+ln -sf /etc/nginx/sites-available/aicreator aicreator
 
 rm -Rf alertmanager grafana jenkins prometheus consul argocd aicreator
 
