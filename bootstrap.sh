@@ -170,14 +170,14 @@ else
   fi
 fi
 
-#vagrant kube-master -c "ifconfig" | grep eth1 -A 1 | tail -n 1 | awk '{print $2}'
+#vagrant kube-master -c "ip addr show eth1 | grep 'inet ' | awk '{print \$2}' | cut -d'/' -f1" | grep eth1 -A 1 | tail -n 1 | awk '{print $2}'
 
 for item in "${PROJECTS[@]}"; do
-  IP=`vagrant ssh ${item} -c "ifconfig" | grep eth1 -A 1 | tail -n 1 | awk '{print $2}'`
+  IP=`vagrant ssh ${item} -c "ip addr show eth1 | grep 'inet ' | awk '{print \$2}' | cut -d'/' -f1"`
   echo ${item} ansible_host=${IP} ip=${IP} ansible_user=root ansible_ssh_private_key_file=/root/.ssh/tz_rsa ansible_ssh_extra_args='-o StrictHostKeyChecking=no' ansible_port=22 >> info
 done
 for item in "${PROJECTS[@]}"; do
-  IP=`vagrant ssh ${item} -c "ifconfig" | grep eth1 -A 1 | tail -n 1 | awk '{print $2}'`
+  IP=`vagrant ssh ${item} -c "ip addr show eth1 | grep 'inet ' | awk '{print \$2}' | cut -d'/' -f1"`
   echo ${IP}   ${item} >> info
 done
 
