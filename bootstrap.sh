@@ -125,6 +125,15 @@ if [[ "${EVENT}" == "up" ]]; then
   echo "##################################################################################"
   sleep 5
   vagrant ${EVENT} --provider=virtualbox
+  
+  # SSH 키 권한 수정 (Ansible 연결 오류 방지)
+  echo "##################################################################################"
+  echo "SSH 키 권한 수정 중..."
+  echo "##################################################################################"
+  for item in "${PROJECTS[@]}"; do
+    vagrant ssh ${item} -- -t "sudo chmod 600 /root/.ssh/tz_rsa && sudo chmod 644 /root/.ssh/tz_rsa.pub" 2>/dev/null || echo "SSH key permission fix for ${item} skipped"
+  done
+  
   if [[ "${A_ENV}" == "M" ]]; then
     echo "##################################################################################"
     echo 'vagrant ssh kube-master -- -t "sudo bash /vagrant/scripts/local/kubespray.sh"'
