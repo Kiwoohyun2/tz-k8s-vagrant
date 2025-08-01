@@ -93,6 +93,10 @@ else
   echo "Use existing ssh key files: ${MYKEY}"
 fi
 
+# SSH 키 권한 수정 (WSL2 호환성)
+chmod 600 .ssh/${MYKEY} 2>/dev/null || echo "SSH key permission fix skipped (WSL2)"
+chmod 644 .ssh/${MYKEY}.pub 2>/dev/null || echo "SSH public key permission fix skipped (WSL2)"
+
 cp -Rf Vagrantfile Vagrantfile.bak
 if [[ "${1}" == "save" || "${1}" == "restore" || "${1}" == "delete" || "${1}" == "list" ]]; then
   EVENT=${1}
