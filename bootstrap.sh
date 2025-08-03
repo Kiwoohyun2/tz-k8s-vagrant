@@ -120,15 +120,23 @@ fi
 
 if [[ "${EVENT}" == "up" ]]; then
   echo "- PC Type: ${A_ENV}" > info
+
+  # SSH 키 권한 미리 수정 (VM 부팅 전)
+  echo "##################################################################################"
+  echo "SSH 키 권한 미리 수정 중..."
+  echo "##################################################################################"
+  chmod 600 .ssh/${MYKEY}
+  chmod 644 .ssh/${MYKEY}.pub
+
   echo "##################################################################################"
   echo 'vagrant ${EVENT} --provider=virtualbox'
   echo "##################################################################################"
   sleep 5
   vagrant ${EVENT} --provider=virtualbox
-  
-  # SSH 키 권한 수정 (Ansible 연결 오류 방지)
+
+  # VM 내부 SSH 키 권한도 수정
   echo "##################################################################################"
-  echo "SSH 키 권한 수정 중..."
+  echo "VM 내부 SSH 키 권한 수정 중..."
   echo "##################################################################################"
   vagrant ssh kube-master -- -t "sudo chmod 600 /root/.ssh/tz_rsa && sudo chmod 644 /root/.ssh/tz_rsa.pub"
   vagrant ssh kube-node-1 -- -t "sudo chmod 600 /root/.ssh/tz_rsa && sudo chmod 644 /root/.ssh/tz_rsa.pub"
