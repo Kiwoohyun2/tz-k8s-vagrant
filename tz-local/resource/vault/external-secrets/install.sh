@@ -3,9 +3,13 @@
 source /root/.bashrc
 function prop { key="${2}=" file="/root/.k8s/${1}" rslt=$(grep "${3:-}" "$file" -A 10 | grep "$key" | head -n 1 | cut -d '=' -f2 | sed 's/ //g'); [[ -z "$rslt" ]] && key="${2} = " && rslt=$(grep "${3:-}" "$file" -A 10 | grep "$key" | head -n 1 | cut -d '=' -f2 | sed 's/ //g'); rslt=$(echo "$rslt" | tr -d '\n' | tr -d '\r'); echo "$rslt"; }
 
-# Webhook 임시 비활성화 (연결 오류 방지)
-echo "Webhook 임시 비활성화 중..."
-kubectl patch validatingwebhookconfiguration external-secrets-webhook --type='json' -p='[{"op": "replace", "path": "/webhooks/0/failurePolicy", "value": "Ignore"}]' 2>/dev/null || echo "Webhook 비활성화 실패 (무시됨)"
+# WSL 환경 안전장치
+echo "WSL 환경 확인 중..."
+if [[ ! -d /vagrant ]]; then
+  echo "오류: /vagrant 디렉토리를 찾을 수 없습니다!"
+  echo "Vagrant VM이 제대로 시작되었는지 확인하세요."
+  exit 1
+fi
 
 #bash /vagrant/tz-local/resource/vault/external-secrets/install.sh
 cd /vagrant/tz-local/resource/vault/external-secrets
@@ -24,6 +28,11 @@ helm upgrade --debug --install external-secrets \
     -n ${NS} \
     --create-namespace \
     --set installCRDs=true
+
+# External Secrets 설치 후 Webhook 비활성화
+echo "External Secrets 설치 완료. Webhook 비활성화 중..."
+sleep 10
+kubectl patch validatingwebhookconfiguration external-secrets-webhook --type='json' -p='[{"op": "replace", "path": "/webhooks/0/failurePolicy", "value": "Ignore"}]' 2>/dev/null || echo "Webhook 비활성화 실패 (무시됨)"
 
 #export VAULT_ADDR=http://vault.default.${k8s_project}.${k8s_domain}
 #vault login ${VAULT_TOKEN}
