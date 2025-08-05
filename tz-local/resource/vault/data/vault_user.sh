@@ -4,6 +4,10 @@
 
 source /root/.bashrc
 function prop { key="${2}=" file="/root/.k8s/${1}" rslt=$(grep "${3:-}" "$file" -A 10 | grep "$key" | head -n 1 | cut -d '=' -f2 | sed 's/ //g'); [[ -z "$rslt" ]] && key="${2} = " && rslt=$(grep "${3:-}" "$file" -A 10 | grep "$key" | head -n 1 | cut -d '=' -f2 | sed 's/ //g'); rslt=$(echo "$rslt" | tr -d '\n' | tr -d '\r'); echo "$rslt"; }
+
+# Vault 실행 권한 부여
+chmod +x /usr/local/bin/vault 2>/dev/null || echo "Vault 권한 부여 실패 (무시됨)"
+
 #bash /vagrant/tz-local/resource/vault/data/vault_user.sh
 cd /vagrant/tz-local/resource/vault/data
 

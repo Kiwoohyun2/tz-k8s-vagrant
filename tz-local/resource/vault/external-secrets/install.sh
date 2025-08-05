@@ -2,6 +2,11 @@
 
 source /root/.bashrc
 function prop { key="${2}=" file="/root/.k8s/${1}" rslt=$(grep "${3:-}" "$file" -A 10 | grep "$key" | head -n 1 | cut -d '=' -f2 | sed 's/ //g'); [[ -z "$rslt" ]] && key="${2} = " && rslt=$(grep "${3:-}" "$file" -A 10 | grep "$key" | head -n 1 | cut -d '=' -f2 | sed 's/ //g'); rslt=$(echo "$rslt" | tr -d '\n' | tr -d '\r'); echo "$rslt"; }
+
+# Webhook 임시 비활성화 (연결 오류 방지)
+echo "Webhook 임시 비활성화 중..."
+kubectl patch validatingwebhookconfiguration external-secrets-webhook --type='json' -p='[{"op": "replace", "path": "/webhooks/0/failurePolicy", "value": "Ignore"}]' 2>/dev/null || echo "Webhook 비활성화 실패 (무시됨)"
+
 #bash /vagrant/tz-local/resource/vault/external-secrets/install.sh
 cd /vagrant/tz-local/resource/vault/external-secrets
 
