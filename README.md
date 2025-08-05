@@ -87,7 +87,7 @@ to project root directory.
        vi scripts/local/Vagrantfile_slave
           config.vm.define "kube-slave-1" do |slave|
             slave.vm.box = IMAGE_NAME
-            slave.vm.network "public_network", xip: "192.168.0.110"        => This should be changed to your network
+            slave.vm.network "public_network", xip: "192.168.0.120"        => This should be changed to your network
             slave.vm.hostname = "kube-slave"
             slave.vm.provision "shell", :path => File.join(File.dirname(__FILE__),"scripts/local/node.sh"), :args => slave.vm.hostname
           end
@@ -95,7 +95,7 @@ to project root directory.
           (2..COUNTER).each do |i|
             config.vm.define "kube-slave-#{i}" do |node|
                 node.vm.box = IMAGE_NAME
-                node.vm.network "public_network", ip: "192.168.0.11#{i}"   => This should be changed to your network
+                node.vm.network "public_network", ip: "192.168.0.12#{i}"   => This should be changed to your network
                 node.vm.hostname = "kube-slave-#{i}"
                 node.vm.provision "shell", :path => File.join(File.dirname(__FILE__),"scripts/local/node.sh"), :args => node.vm.hostname
             end

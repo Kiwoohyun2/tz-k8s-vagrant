@@ -99,9 +99,9 @@ cat <<EOF >> /etc/hosts
 192.168.0.101   kube-node-1
 192.168.0.102   kube-node-2
 
-192.168.0.110   kube-slave-1
-192.168.0.112   kube-slave-2
-192.168.0.113   kube-slave-3
+192.168.0.120   kube-slave-1
+192.168.0.122   kube-slave-2
+192.168.0.123   kube-slave-3
 
 192.168.0.210   kube-slave-4
 192.168.0.212   kube-slave-5
