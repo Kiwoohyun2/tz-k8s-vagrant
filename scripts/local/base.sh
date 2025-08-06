@@ -103,9 +103,9 @@ cat <<EOF >> /etc/hosts
 192.168.0.122   kube-slave-2
 192.168.0.123   kube-slave-3
 
-192.168.0.210   kube-slave-4
-192.168.0.212   kube-slave-5
-192.168.0.213   kube-slave-6
+192.168.0.130   kube-slave-4
+192.168.0.132   kube-slave-5
+192.168.0.133   kube-slave-6
 
 192.168.0.200   test.default.okestro-k8s.okestro.me consul.default.okestro-k8s.okestro.me vault.default.okestro-k8s.okestro.me
 192.168.0.200   consul-server.default.okestro-k8s.okestro.me argocd.default.okestro-k8s.okestro.me

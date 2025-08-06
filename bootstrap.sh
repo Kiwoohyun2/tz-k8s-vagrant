@@ -115,7 +115,7 @@ if [[ "${A_ENV}" == "M" ]]; then
   PROJECTS=(kube-master kube-node-1 kube-node-2)
 elif [[ "${A_ENV}" == "S" ]]; then
   cp -Rf ./scripts/local/Vagrantfile_slave Vagrantfile
-  PROJECTS=(kube-slave-1 kube-slave-2 kube-slave-3)
+  PROJECTS=(kube-slave-4 kube-slave-5 kube-slave-6)
 fi
 
 if [[ "${EVENT}" == "up" ]]; then
